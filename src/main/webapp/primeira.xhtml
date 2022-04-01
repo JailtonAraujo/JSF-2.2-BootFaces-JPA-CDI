@@ -9,10 +9,13 @@
 
 <h:body>
 	
+	<h:form>
+		<h:commandLink  value="Administração" action="administracao" style="margin-bottom: 8px;"/>
+		<h:commandLink value="Lançamentos" action="primeira" style="margin-left: 8px; margin-bottom: 8px;" />
+		<h:commandLink value="Trocar de Usuario" action="index" style = "margin-left: 8px; margin-bottom: 8px;" />
+	</h:form>
+	
 	<h:form id="formPessoa">
-		<h:graphicImage library="img" name="gato-preto.png"/>
-		<h2>Sistema JSF!</h2>
-		<br/>
 		
 		<h:panelGrid columns="2">
 		
@@ -75,7 +78,7 @@
 		</h:panelGrid>
 		
 		
-		<h:commandButton value="Salvar" action="#{pessoaBean.salvar}" image="/resources/img/diskette.png" title="Salvar"/>
+		<h:commandButton value="Salvar" action="#{pessoaBean.salvar}" image="/resources/img/diskette.png" title="Salvar" style="margin-left: 20px;"/>
 		<h:commandButton value="Novo" action="#{pessoaBean.novo}" image="/resources/img/plus.png" title="Novo" style="margin-left: 8px;"/>
 		<h:commandButton value="Deletar" action="#{pessoaBean.deletar}" image="/resources/img/remove.png" title="Excluir" style="margin-left: 8px;"/>
 		<h:commandButton value="Limpar" type="reset" image="/resources/img/limpar.png" title="Limpar Formulario" style="margin-left: 8px;"/>
@@ -104,7 +107,7 @@
 					<h:graphicImage value="/resources/img/edit.png"/>
 				</h:commandLink>
 			</h:column>
-			<h:column>
+			<h:column rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}">
 			<f:facet name="header">Excluir</f:facet>
 				<h:commandLink value="" action="#{pessoaBean.deletar}" title="Excluir">
 					<f:setPropertyActionListener value="#{p}" target="#{pessoaBean.pessoa}"/>

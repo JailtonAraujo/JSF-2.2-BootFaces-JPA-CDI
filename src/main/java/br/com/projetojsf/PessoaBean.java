@@ -6,9 +6,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import br.com.dao.DaoGeneric;
 import br.com.entidades.Pessoa;
+import br.com.repository.IDaoPessoa;
+import br.com.repository.IDaoPessoaImpl;
 
 @ViewScoped
 @ManagedBean(name = "pessoaBean")
@@ -18,6 +22,8 @@ public class PessoaBean {
 	private List<Pessoa> listaDePessoas = new ArrayList<Pessoa>();
 	
 	private DaoGeneric<Pessoa> daoGeneric = new DaoGeneric<Pessoa>();
+	
+	private IDaoPessoa iDaoPessoa = new IDaoPessoaImpl();
 	
 	public String salvar() {
 		
@@ -42,6 +48,32 @@ public class PessoaBean {
 	@PostConstruct
 	public void carregarListaDePessoas() {
 		listaDePessoas = daoGeneric.getListEntity(Pessoa.class);
+	}
+	
+	public String logar() {
+		
+		Pessoa usuarioLogado = iDaoPessoa.consultarLogin(pessoa.getLogin(), pessoa.getSenha());
+		
+		if(usuarioLogado != null) {// Achou usuario
+			
+			//Adicionar o usuario na sessão usuarioLogado
+			
+			FacesContext context = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = context.getExternalContext();
+			externalContext.getSessionMap().put("usuarioLogado", usuarioLogado);
+			
+			return "primeira.jsf";
+		}
+		
+		return "index.jsf";
+	}
+	
+	public boolean retricaoAcesso(String perfil) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		Pessoa usuarioLogado = (Pessoa) externalContext.getSessionMap().get("usuarioLogado");
+		
+		return usuarioLogado.getPerfilUser().equalsIgnoreCase(perfil);
 	}
 
 	public Pessoa getPessoa() {

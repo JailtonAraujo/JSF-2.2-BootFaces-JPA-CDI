@@ -5,14 +5,25 @@
 	<title>Projeto JSF</title>
 </h:head>
 
-<h:body>
+<h:body style="width: 100vw; heigth:100vh;">
 	
-	<h:form>
-		<h2>PROJETO JSF</h2>
+	<h:form style="margin-top: 10%; margin-left: 40%;">
+		<h2>LOGIN</h2>
+		
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Login:"/>
+			<h:inputText value="#{pessoaBean.pessoa.login}"/>
+			
+			<h:outputLabel value="Senha"/>
+			<h:inputSecret value="#{pessoaBean.pessoa.senha}"/>
+			
+			<h:commandButton value="LOGAR" action="#{pessoaBean.logar}"/>
+		
+		</h:panelGrid>
 		
 		<br/>
 		
-		<h:commandButton value="Cadastrar" action="primeira"/>
+		
 	</h:form>
 
 </h:body>
