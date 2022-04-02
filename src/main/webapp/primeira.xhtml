@@ -2,20 +2,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core">
+	  xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:ui = "http://java.sun.com/jsf/facelets">
 <h:head>
 	<title>Projeto JSF</title>
 </h:head>
 
 <h:body>
 	
-	<h:form>
-		<h:commandLink  value="Administração" action="administracao" style="margin-bottom: 8px;"/>
-		<h:commandLink value="Lançamentos" action="primeira" style="margin-left: 8px; margin-bottom: 8px;" />
-		<h:commandLink value="Trocar de Usuario" action="index" style = "margin-left: 8px; margin-bottom: 8px;" />
-	</h:form>
+	<ui:include src="/menu.xhtml"/>
 	
-	<h:form id="formPessoa">
+	<h:form id="formPessoa" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}">
+		
+		<h:messages infoStyle="color:green;"/>
 		
 		<h:panelGrid columns="2">
 		
@@ -46,6 +45,10 @@
 				<f:selectItem itemValue="F" itemLabel="Feminino"/>
 			</h:selectOneMenu>
 			
+			<h:outputLabel value="Data Nascimento:"/>
+			<h:inputText value="#{pessoaBean.pessoa.dataNascimento}" converterMessage="Data Invalida!">
+				<f:convertDateTime type="date" pattern="dd/MM/yyyy" locale="pt_BR" timeZone="GMT-03:00"/>
+			</h:inputText>
 			
 			<h:outputLabel value="Frameworks:"/>
 			<h:selectManyMenu id="campoFrameworks" value="#{pessoaBean.pessoa.frameworks}" style="height:150px;">
@@ -74,6 +77,23 @@
 				<f:selectItem itemValue="RECEPCIONISTA" itemLabel="Recepcionista"/>
 				<f:selectItem itemValue="SECRETARIO" itemLabel="Secretario"/>
 			</h:selectOneMenu>
+			
+			<h:outputLabel value="Nivel De Programação:"/>
+			<h:selectOneRadio value="#{pessoaBean.pessoa.nivelProgramacao}" layout="pageDirection">
+				<f:selectItem itemValue="J" itemLabel="Junior"/>
+				<f:selectItem itemvalue="P" itemLabel="Pleno"/>
+				<f:selectItem itemvalue="S" itemLabel="Sênior"/>
+				<f:selectItem itemvalue="E" itemLabel="Especialista"/>
+			</h:selectOneRadio>
+			
+			<h:outputLabel value="Linguagens De Programação:"/>
+			<h:selectManyCheckbox value="#{pessoaBean.pessoa.linguagensDeProgramacao}" layout="pageDirection">
+				<f:selectItem itemValue="1" itemLabel="Java"/>
+				<f:selectItem itemValue="2" itemLabel="c#"/>
+				<f:selectItem itemValue="3" itemLabel="Php"/>
+				<f:selectItem itemValue="4" itemLabel="Ruby"/>
+				<f:selectItem itemValue="5" itemLabel="python"/>
+			</h:selectManyCheckbox>
 
 		</h:panelGrid>
 		
@@ -100,6 +120,7 @@
 			<f:facet name="header">Sobrenome:</f:facet>
 				<h:outputText value="#{p.sobrenome}"/>
 			</h:column>
+			
 			<h:column>
 			<f:facet name="header">Editar:</f:facet>
 				<h:commandLink value="" title="Editar">
@@ -107,6 +128,7 @@
 					<h:graphicImage value="/resources/img/edit.png"/>
 				</h:commandLink>
 			</h:column>
+			
 			<h:column rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}">
 			<f:facet name="header">Excluir</f:facet>
 				<h:commandLink value="" action="#{pessoaBean.deletar}" title="Excluir">

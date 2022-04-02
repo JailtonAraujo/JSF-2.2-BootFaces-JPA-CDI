@@ -25,18 +25,22 @@ public class Pessoa implements Serializable {
 	private String sobrenome;
 
 	private int idade;
-	
+
 	private String sexo;
-	
-	private String [] frameworks;
-	
+
+	private String[] frameworks;
+
 	private Boolean ativo;
-	
+
 	private String login;
-	
+
 	private String senha;
-	
+
 	private String perfilUser;
+
+	private String nivelProgramacao;
+
+	private Integer[] linguagensDeProgramacao;
 
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
@@ -84,10 +88,14 @@ public class Pessoa implements Serializable {
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	
-	
 
-	
+	public String getNivelProgramacao() {
+		return nivelProgramacao;
+	}
+
+	public void setNivelProgramacao(String nivelProgramacao) {
+		this.nivelProgramacao = nivelProgramacao;
+	}
 
 	public String getPerfilUser() {
 		return perfilUser;
@@ -120,8 +128,6 @@ public class Pessoa implements Serializable {
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	
-	
 
 	public String[] getFrameworks() {
 		return frameworks;
@@ -130,8 +136,6 @@ public class Pessoa implements Serializable {
 	public void setFrameworks(String[] frameworks) {
 		this.frameworks = frameworks;
 	}
-	
-	
 
 	public Boolean getAtivo() {
 		return ativo;
@@ -139,6 +143,14 @@ public class Pessoa implements Serializable {
 
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public Integer[] getLinguagensDeProgramacao() {
+		return linguagensDeProgramacao;
+	}
+
+	public void setLinguagensDeProgramacao(Integer[] linguagensDeProgramacao) {
+		this.linguagensDeProgramacao = linguagensDeProgramacao;
 	}
 
 	@Override

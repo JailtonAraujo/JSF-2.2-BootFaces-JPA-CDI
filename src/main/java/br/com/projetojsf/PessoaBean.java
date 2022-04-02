@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import br.com.dao.DaoGeneric;
 import br.com.entidades.Pessoa;
@@ -29,7 +32,7 @@ public class PessoaBean {
 		
 		pessoa = daoGeneric.merge(pessoa);
 		carregarListaDePessoas();
-		
+		mostrarMsg("Salvo com Sucesso!");
 		return "";
 	}
 	
@@ -52,7 +55,7 @@ public class PessoaBean {
 	
 	public String logar() {
 		
-		Pessoa usuarioLogado = iDaoPessoa.consultarLogin(pessoa.getLogin(), pessoa.getSenha());
+		Pessoa usuarioLogado = iDaoPessoa. consultaLoginEspecifico(pessoa.getLogin(), pessoa.getSenha());
 		
 		if(usuarioLogado != null) {// Achou usuario
 			
@@ -68,6 +71,18 @@ public class PessoaBean {
 		return "index.jsf";
 	}
 	
+	public String logout() {
+		
+		FacesContext context = FacesContext.getCurrentInstance(); 
+        context.getExternalContext().getSessionMap().remove("usuarioLogado");
+        
+        HttpSession session = (HttpSession)FacesContext.getCurrentInstance()
+        					  .getExternalContext().getSession(true);
+        		    session.invalidate(); 
+		
+		return "index.jsf";
+	}
+	
 	public boolean retricaoAcesso(String perfil) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
@@ -75,7 +90,13 @@ public class PessoaBean {
 		
 		return usuarioLogado.getPerfilUser().equalsIgnoreCase(perfil);
 	}
-
+	
+	public void mostrarMsg(String msg) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage message = new FacesMessage(msg);
+		context.addMessage(null, message);
+	}
+	
 	public Pessoa getPessoa() {
 		return pessoa;
 	}

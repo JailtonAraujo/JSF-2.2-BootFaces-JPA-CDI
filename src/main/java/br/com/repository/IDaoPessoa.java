@@ -5,4 +5,6 @@ import br.com.entidades.Pessoa;
 public interface IDaoPessoa {
 
 	Pessoa consultarLogin (String login, String senha);
+	
+	Pessoa  consultaLoginEspecifico (String login, String senha);
 }
