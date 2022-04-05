@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
@@ -31,6 +32,7 @@ public class LancamentoBean {
 		lancamento.setUsuario(getUserLogado());
 		 lancamento = daoGeneric.merge(lancamento);
 		carregarLancamentos();
+		gerarMsg("Lançamento salvo com sucesso!");
 		
 		return "";
 	}
@@ -53,6 +55,7 @@ public class LancamentoBean {
 		daoGeneric.deletePorID(lancamento);
 		lancamento = new Lancamento();
 		carregarLancamentos();
+		gerarMsg("Excluido com sucesso!");
 		
 		return "";
 	}
@@ -63,6 +66,12 @@ public class LancamentoBean {
 		Pessoa usuarioLogado = (Pessoa) externalContext.getSessionMap().get("usuarioLogado");
 		
 		return usuarioLogado;
+	}
+	
+	public void gerarMsg(String msg) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage message = new FacesMessage(msg);
+		context.addMessage(null, message);
 	}
 
 	public Lancamento getLancamento() {

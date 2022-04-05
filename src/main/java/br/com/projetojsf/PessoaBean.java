@@ -1,5 +1,10 @@
 package br.com.projetojsf;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +14,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import br.com.dao.DaoGeneric;
 import br.com.entidades.Pessoa;
@@ -41,10 +48,15 @@ public class PessoaBean {
 		return "";
 	}
 	
+	public String limpar() {
+		pessoa = new Pessoa();
+		return "";
+	}
+	
 	public String deletar () {
 		daoGeneric.deletePorID(pessoa);
 		carregarListaDePessoas();
-		
+		mostrarMsg("Usuario Excluido com sucesso!");
 		return "";
 	}
 	
@@ -95,6 +107,34 @@ public class PessoaBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = new FacesMessage(msg);
 		context.addMessage(null, message);
+	}
+	
+	public void pesquisaCep(AjaxBehaviorEvent event) {
+		try {
+			URL url = new URL("https://viacep.com.br/ws/"+pessoa.getCep()+"/json/");
+			URLConnection connection = url.openConnection();
+			
+			InputStream stream = connection.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+			
+			String cep = "";
+			StringBuilder jsonCep = new StringBuilder();
+			
+			while ((cep = reader.readLine()) != null) {
+				jsonCep.append(cep);
+			}
+			
+			Pessoa gson = new Gson().fromJson(jsonCep.toString(), Pessoa.class);
+			
+			pessoa.setLocalidade(gson.getLocalidade());
+			pessoa.setComplemento(gson.getComplemento());
+			pessoa.setUf(gson.getUf());
+			pessoa.setLogradouro(gson.getLogradouro());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			mostrarMsg("Erro ao buscar Cep!");
+		}
 	}
 	
 	public Pessoa getPessoa() {

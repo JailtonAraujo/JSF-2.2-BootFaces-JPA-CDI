@@ -27,7 +27,9 @@
 		
 		
 		<h:outputLabel value="Nome:"/>
-		<h:inputText value="#{pessoaBean.pessoa.nome}"/>
+		<h:inputText value="#{pessoaBean.pessoa.nome}" rendered="true" requiredMessage="Nome invalido" validatorMessage="O nome deve ter mais que 10 caracteres!">
+			<f:validateLength minimum="10" maximum="100"/>
+		</h:inputText>
 		
 		
 		<h:outputLabel value="Sobrenome:"/>
@@ -58,6 +60,11 @@
 				<f:selectItem itemValue="PrimeFaces" />
 				<f:selectItem itemValue="JSF" />
 			</h:selectManyMenu>
+			
+			<h:outputLabel value="CEP:"/>
+			<h:inputText value="#{pessoaBean.pessoa.cep}">
+				<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisaCep}"/>
+			</h:inputText>
 			
 			<h:outputLabel value="Ativo:"/>
 			<h:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}" />
@@ -99,10 +106,16 @@
 		
 		
 		<h:commandButton value="Salvar" action="#{pessoaBean.salvar}" image="/resources/img/diskette.png" title="Salvar" style="margin-left: 20px;"/>
-		<h:commandButton value="Novo" action="#{pessoaBean.novo}" image="/resources/img/plus.png" title="Novo" style="margin-left: 8px;"/>
+		<h:commandButton value="Novo" action="#{pessoaBean.novo}" image="/resources/img/plus.png" title="Novo" style="margin-left: 8px;" id="btn-novo">
+			<f:ajax execute="btn-novo" render="@form"/>
+		</h:commandButton>
 		<h:commandButton value="Deletar" action="#{pessoaBean.deletar}" image="/resources/img/remove.png" title="Excluir" style="margin-left: 8px;"/>
-		<h:commandButton value="Limpar" type="reset" image="/resources/img/limpar.png" title="Limpar Formulario" style="margin-left: 8px;"/>
+		<h:commandButton value="Limpar" id="btn-limpar" action="#{pessoaBean.limpar}" image="/resources/img/limpar.png" title="Limpar Formulario" style="margin-left: 8px;">
+			<f:ajax execute="btn-limpar" render="@form"/>
+		</h:commandButton>
+		</h:form>
 		
+		<h:form id="form-table-usuarios">
 		
 		<h:dataTable value="#{pessoaBean.listaDePessoas}" var="p" border="3" cellpadding="6">
 		
@@ -137,8 +150,8 @@
 				</h:commandLink>
 			</h:column>
 		</h:dataTable>
-		
-	</h:form>
+		</h:form>
+	
 
 </h:body>
 </html>
