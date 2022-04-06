@@ -1,12 +1,16 @@
 package br.com.repository;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import org.hibernate.query.Query;
 
+import br.com.entidades.Estados;
 import br.com.entidades.Pessoa;
 import br.com.jpautil.JPAUtil;
 
@@ -54,6 +58,24 @@ public class IDaoPessoaImpl implements IDaoPessoa {
 		entityManager.close();
 		
 		 return pessoa;
+	}
+
+	@Override
+	public List<SelectItem> listarEstados() {
+		EntityManager entityManager = JPAUtil.getEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+
+		entityTransaction.begin();
+		
+		List<SelectItem> selectItems = new ArrayList<SelectItem>();
+		
+		List<Estados> listaDeEstados = entityManager.createQuery("from Estados").getResultList();
+		
+		for (Estados estado : listaDeEstados) {
+			selectItems.add(new SelectItem(estado.getId(), estado.getNome()));
+		}
+		
+		return selectItems;
 	}
 
 }

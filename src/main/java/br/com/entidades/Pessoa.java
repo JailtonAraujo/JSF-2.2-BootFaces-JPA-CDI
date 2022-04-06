@@ -12,10 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
-import org.hibernate.annotations.ForeignKey;
-
-@SuppressWarnings("deprecation")
 @Entity
 public class Pessoa implements Serializable {
 
@@ -50,60 +48,33 @@ public class Pessoa implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
-	private String cep;
-
-	private String uf;
-
-	private String localidade;
-
-	private String logradouro;
-
-	private String complemento;
+	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private Endereco endereco;
+	
+	@Transient/*Não fica persistente / não grava no banco*/
+	private Estados estados;
 
 	public Pessoa() {
 
 	}
-
-	public String getCep() {
-		return cep;
+	
+	public Estados getEstados() {
+		return estados;
+	}
+	
+	public void setEstados(Estados estados) {
+		this.estados = estados;
 	}
 
-	public void setCep(String cep) {
-		this.cep = cep;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public String getUf() {
-		return uf;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
-
-	public String getLocalidade() {
-		return localidade;
-	}
-
-	public void setLocalidade(String localidade) {
-		this.localidade = localidade;
-	}
-
-	public String getLogradouro() {
-		return logradouro;
-	}
-
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
-
-	public String getComplemento() {
-		return complemento;
-	}
-
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-
+	
 	public long getId() {
 		return id;
 	}

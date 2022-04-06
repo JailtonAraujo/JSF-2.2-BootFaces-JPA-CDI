@@ -5,25 +5,30 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.ForeignKey;
 
 @SuppressWarnings("deprecation")
 @Entity(name = "enderecousuario")
-public class Endereco implements Serializable{
-	
+public class Endereco implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String cep;
 
 	private String uf;
 
-	private String cidade;
+	private String localidade;
 
 	private String logradouro;
 
@@ -31,8 +36,8 @@ public class Endereco implements Serializable{
 
 	@OneToOne(optional = false)
 	@ForeignKey(name = "fk_endereco_usuario")
+	@JoinColumn(name = "usuario_id")
 	private Pessoa pessoa;
-	
 
 	public Pessoa getPessoa() {
 		return pessoa;
@@ -66,12 +71,12 @@ public class Endereco implements Serializable{
 		this.uf = uf;
 	}
 
-	public String getCidade() {
-		return cidade;
+	public String getLocalidade() {
+		return localidade;
 	}
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
+	public void setLocalidade(String localidade) {
+		this.localidade = localidade;
 	}
 
 	public String getLogradouro() {
