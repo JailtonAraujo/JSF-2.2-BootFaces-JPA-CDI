@@ -64,7 +64,7 @@
 			</h:selectManyMenu>
 			
 			<h:outputLabel value="CEP:"/>
-			<h:inputText value="#{pessoaBean.endereco.cep}">
+			<h:inputText value="#{pessoaBean.endereco.cep}" id="cep">
 				<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisaCep}" 
 				render="uf logradouro localidade complemento"/>
 			</h:inputText>
@@ -117,12 +117,18 @@
 				<f:selectItem itemValue="5" itemLabel="python"/>
 			</h:selectManyCheckbox>
 			
-			<h:outputLabel value="Estados"/>
-			<h:selectOneMenu value="#{pessoaBean.pessoa.estados}" immediate="true">
+			<h:outputLabel value="Estado"/>
+			<h:selectOneMenu value="#{pessoaBean.pessoa.estados}" immediate="true" converter="estadoConverter">
 				<f:selectItem itemLabel="--[Selecione]--" noSelectionOption="true" />
 				<f:selectItems value="#{pessoaBean.estados}" />
 				<f:ajax event="change" execute="@this"
-					listener="#{pessoaBean.carregarCidades}" />
+					listener="#{pessoaBean.carregarCidades}" render="combo-cidade"/>
+			</h:selectOneMenu>
+			
+			<h:outputLabel value="Cidade"/>
+			<h:selectOneMenu value="#{pessoaBean.pessoa.cidades}" id="combo-cidade" converter="cidadeConverter">
+				<f:selectItem itemLabel="--Selecione--" noSelectionOption="true"/>
+				<f:selectItems value="#{pessoaBean.cidades}"/>
 			</h:selectOneMenu>
 
 		</h:panelGrid>
@@ -159,8 +165,9 @@
 			
 			<h:column>
 			<f:facet name="header">Editar:</f:facet>
-				<h:commandLink value="" title="Editar">
+				<h:commandLink value="" title="Editar" action="#{pessoaBean.editar}">
 					<f:setPropertyActionListener value="#{p}" target="#{pessoaBean.pessoa}"/>
+					<f:setPropertyActionListener value="#{p.endereco}" target="#{pessoaBean.endereco}"/>
 					<h:graphicImage value="/resources/img/edit.png"/>
 				</h:commandLink>
 			</h:column>

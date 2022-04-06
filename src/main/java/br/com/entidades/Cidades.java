@@ -22,7 +22,7 @@ public class Cidades implements Serializable{
 
 	private String nome;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	@ManyToOne
 	private Estados estados;
 
 	public Long getId() {

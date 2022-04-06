@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -22,6 +23,7 @@ import com.google.gson.Gson;
 
 import br.com.dao.DaoGeneric;
 import br.com.entidades.Endereco;
+import br.com.entidades.Estados;
 import br.com.entidades.Pessoa;
 import br.com.repository.IDaoPessoa;
 import br.com.repository.IDaoPessoaImpl;
@@ -34,14 +36,14 @@ public class PessoaBean {
 	private List<Pessoa> listaDePessoas = new ArrayList<Pessoa>();
 	private Endereco endereco = new Endereco();
 	private List<SelectItem> estados;
-	
-	
+	private List<SelectItem> cidades;
+
 	private DaoGeneric<Pessoa> daoGeneric = new DaoGeneric<Pessoa>();
 
 	private IDaoPessoa iDaoPessoa = new IDaoPessoaImpl();
 
 	public String salvar() {
-		
+
 		endereco.setPessoa(pessoa);
 		pessoa.setEndereco(endereco);
 		pessoa = daoGeneric.merge(pessoa);
@@ -72,6 +74,7 @@ public class PessoaBean {
 	@PostConstruct
 	public void carregarListaDePessoas() {
 		listaDePessoas = daoGeneric.getListEntity(Pessoa.class);
+
 	}
 
 	public String logar() {
@@ -97,7 +100,8 @@ public class PessoaBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().getSessionMap().remove("usuarioLogado");
 
-		HttpServletRequest request = (HttpServletRequest) context.getCurrentInstance().getExternalContext().getRequest();
+		HttpServletRequest request = (HttpServletRequest) context.getCurrentInstance().getExternalContext()
+				.getRequest();
 		request.getSession().invalidate();
 
 		return "index.jsf";
@@ -144,11 +148,24 @@ public class PessoaBean {
 			mostrarMsg("Erro ao buscar Cep!");
 		}
 	}
-	
+
 	public void carregarCidades(AjaxBehaviorEvent event) {
-		String estado_id = (String) event.getComponent().getAttributes().get("submittedValue");
-		
-		if(estado_id != null) {
+
+		Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
+
+		if (estado != null) {
+
+			cidades = iDaoPessoa.listarCidades(estado.getId().toString());
+
+		}
+	}
+	
+	public void editar() {
+		if(pessoa.getCidades() != null) {
+			Estados estado = pessoa.getCidades().getEstados();
+			pessoa.setEstados(estado);
+			
+			cidades = iDaoPessoa.listarCidades(estado.getId().toString());
 			
 		}
 	}
@@ -176,10 +193,18 @@ public class PessoaBean {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
 	public List<SelectItem> getEstados() {
 		estados = iDaoPessoa.listarEstados();
 		return estados;
+	}
+
+	public List<SelectItem> getCidades() {
+		return cidades;
+	}
+
+	public void setCidades(List<SelectItem> cidades) {
+		this.cidades = cidades;
 	}
 
 }
