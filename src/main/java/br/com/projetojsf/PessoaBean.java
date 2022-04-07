@@ -1,12 +1,20 @@
 package br.com.projetojsf;
 
+import static org.junit.Assert.assertNotNull;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -17,7 +25,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import javax.xml.bind.DatatypeConverter;
 
 import com.google.gson.Gson;
 
@@ -37,13 +49,48 @@ public class PessoaBean {
 	private Endereco endereco = new Endereco();
 	private List<SelectItem> estados;
 	private List<SelectItem> cidades;
+	
+	private Part arquivoFot;
 
 	private DaoGeneric<Pessoa> daoGeneric = new DaoGeneric<Pessoa>();
 
 	private IDaoPessoa iDaoPessoa = new IDaoPessoaImpl();
 
-	public String salvar() {
-
+	public String salvar() throws IOException {
+		
+		byte[] imagemByte = getByte(arquivoFot.getInputStream());
+		
+		pessoa.setFotoIconBaseOriginal(imagemByte);/*Salva imagem original*/
+		
+		/*Transformar em BufferedImage*/
+		BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
+		
+		/*Pergar o tipo da imagem*/
+		int type = bufferedImage.getType() == 0? bufferedImage.TYPE_INT_ARGB : bufferedImage.getType();
+		
+		int largura = 200;
+		int altura = 200;
+		
+		/*Criando miniatura*/
+		BufferedImage resizeImage = new BufferedImage(largura, altura, type);
+		Graphics2D graphics2d = resizeImage.createGraphics();
+		graphics2d.drawImage(bufferedImage, 0, 0, largura, altura, null);
+		graphics2d.dispose();
+		
+		/*Escrever novamente a imagem em tamanho menor*/
+		
+		ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+		String extencao = arquivoFot.getContentType().split("\\/")[1];
+		ImageIO.write(resizeImage, extencao, arrayOutputStream);
+		
+		String imgMiniatura = "data:" + arquivoFot.getContentType() + ";base64," + 
+							  DatatypeConverter.printBase64Binary(arrayOutputStream.toByteArray());
+		
+		/*Processar imagem*/
+		pessoa.setFotoIconBase64(imgMiniatura);
+		pessoa.setExtensao(extencao);
+		
+		
 		endereco.setPessoa(pessoa);
 		pessoa.setEndereco(endereco);
 		pessoa = daoGeneric.merge(pessoa);
@@ -169,6 +216,24 @@ public class PessoaBean {
 			
 		}
 	}
+	
+	public void download() throws IOException{
+		Map<String, String> parans = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		
+		String fileDownloadId = parans.get("fileDownloadId");
+		
+		Pessoa pessoa = daoGeneric.consultar(Pessoa.class, fileDownloadId);
+		
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		response.addHeader("Content-Disposition", "attachment; filename=download."+pessoa.getExtensao());
+		response.setContentType("application/octet-stream");
+		response.setContentLength(pessoa.getFotoIconBaseOriginal().length);
+		response.getOutputStream().write(pessoa.getFotoIconBaseOriginal());
+		response.getOutputStream().flush();
+		FacesContext.getCurrentInstance().responseComplete();
+		
+		
+	}
 
 	public Pessoa getPessoa() {
 		return pessoa;
@@ -205,6 +270,42 @@ public class PessoaBean {
 
 	public void setCidades(List<SelectItem> cidades) {
 		this.cidades = cidades;
+	}
+	
+	public Part getArquivoFot() {
+		return arquivoFot;
+	}
+	
+	public void setArquivoFot(Part arquivoFot) {
+		this.arquivoFot = arquivoFot;
+	}
+	
+	/*Converte inputStream para array de bytes*/
+	private byte [] getByte(InputStream stream) throws IOException {
+		
+		int leng;/*Variavel de controle*/
+		
+		int size=1024; /*Tamanho padrão*/
+		
+		byte[] buffer = null; /*Fluxo*/
+		
+		if(stream instanceof ByteArrayInputStream){
+			size = stream.available();
+			buffer = new byte[size];
+			leng = stream.read(buffer, 0, size);
+		}else {
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			
+			buffer = new byte[size];
+			
+			while((leng = stream.read(buffer, 0, size)) != -1 ) {
+				outputStream.write(buffer, 0, leng);
+			}
+			
+			buffer = outputStream.toByteArray();
+		}
+		return buffer;
+		
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +35,7 @@ public class Endereco implements Serializable {
 
 	private String complemento;
 
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, fetch = FetchType.LAZY)
 	@ForeignKey(name = "fk_endereco_usuario")
 	@JoinColumn(name = "usuario_id")
 	private Pessoa pessoa;

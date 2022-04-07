@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -52,30 +56,62 @@ public class Pessoa implements Serializable {
 
 	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private Endereco endereco;
-	
-	@Transient/*Não fica persistente / não grava no banco*/
+
+	@Transient /* Não fica persistente / não grava no banco */
 	private Estados estados;
-	
+
 	@ManyToOne
 	private Cidades cidades;
-	
+
+	@Column(columnDefinition = "text") /* Tipo text grava arquivos em base 64 */
+	private String fotoIconBase64;
+
+	private String extensao;
+
+	@Lob /* gravar arquivos no banco de dados */
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] fotoIconBaseOriginal;
 
 	public Pessoa() {
 
 	}
-	
+
+	public String getFotoIconBase64() {
+		return fotoIconBase64;
+	}
+
+	public void setFotoIconBase64(String fotoIconBase64) {
+		this.fotoIconBase64 = fotoIconBase64;
+	}
+
+	public String getExtensao() {
+		return extensao;
+	}
+
+	public void setExtensao(String extensao) {
+		this.extensao = extensao;
+	}
+
+	public byte[] getFotoIconBaseOriginal() {
+		return fotoIconBaseOriginal;
+	}
+
+	public void setFotoIconBaseOriginal(byte[] fotoIconBaseOriginal) {
+		this.fotoIconBaseOriginal = fotoIconBaseOriginal;
+	}
+
 	public Cidades getCidades() {
 		return cidades;
 	}
-	
+
 	public void setCidades(Cidades cidades) {
 		this.cidades = cidades;
 	}
-	
+
 	public Estados getEstados() {
 		return estados;
 	}
-	
+
 	public void setEstados(Estados estados) {
 		this.estados = estados;
 	}
@@ -88,7 +124,6 @@ public class Pessoa implements Serializable {
 		this.endereco = endereco;
 	}
 
-	
 	public long getId() {
 		return id;
 	}
