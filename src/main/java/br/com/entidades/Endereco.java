@@ -35,9 +35,9 @@ public class Endereco implements Serializable {
 
 	private String complemento;
 
-	@OneToOne(optional = false, fetch = FetchType.LAZY)
 	@ForeignKey(name = "fk_endereco_usuario")
 	@JoinColumn(name = "usuario_id")
+	@OneToOne(optional = false, fetch = FetchType.LAZY)
 	private Pessoa pessoa;
 
 	public Pessoa getPessoa() {

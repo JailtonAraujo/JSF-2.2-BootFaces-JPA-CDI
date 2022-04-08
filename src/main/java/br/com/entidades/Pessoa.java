@@ -12,14 +12,21 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.validator.constraints.NotEmpty;
+
+@SuppressWarnings("deprecation")
 @Entity
 public class Pessoa implements Serializable {
 
@@ -29,10 +36,14 @@ public class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
+	@Size(min = 10, max = 100, message = "O nome deve ter mais que 10 caracteres!")
 	private String nome;
 
+	@NotEmpty(message = "O sobrenome é obrigatorio!")
+	@NotNull(message = "O sobrenome não pode ser nulo")
 	private String sobrenome;
 
+	@DecimalMin(value = "10", message = "a Idade deve ser superior a 10 anoss")
 	private int idade;
 
 	private String sexo;
@@ -54,13 +65,16 @@ public class Pessoa implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
-	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "pessoa", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	private Endereco endereco;
 
 	@Transient /* Não fica persistente / não grava no banco */
 	private Estados estados;
 
+	
 	@ManyToOne
+	@JoinColumn(name = "cidades_id")
+	@ForeignKey(name = "fk_pessoa_cidade")
 	private Cidades cidades;
 
 	@Column(columnDefinition = "text") /* Tipo text grava arquivos em base 64 */

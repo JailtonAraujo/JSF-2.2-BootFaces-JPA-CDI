@@ -114,7 +114,7 @@
 			</h:selectOneRadio>
 			
 			<h:outputLabel value="Linguagens De Programação:"/>
-			<h:selectManyCheckbox value="#{pessoaBean.pessoa.linguagensDeProgramacao}" layout="pageDirection">
+			<h:selectManyCheckbox value="#{pessoaBean.pessoa.linguagensDeProgramacao}">
 				<f:selectItem itemValue="1" itemLabel="Java"/>
 				<f:selectItem itemValue="2" itemLabel="c#"/>
 				<f:selectItem itemValue="3" itemLabel="Php"/>
@@ -123,15 +123,15 @@
 			</h:selectManyCheckbox>
 			
 			<h:outputLabel value="Estado"/>
-			<h:selectOneMenu value="#{pessoaBean.pessoa.estados}" immediate="true" converter="estadoConverter">
-				<f:selectItem itemLabel="--[Selecione]--" noSelectionOption="true" />
+			<h:selectOneMenu value="#{pessoaBean.pessoa.estados}" immediate="true" converter="estadoConverter" required="true" requiredMessage="Estado é obrigatorio!">
+				<f:selectItem itemLabel="--Selecione--" noSelectionOption="true"/>
 				<f:selectItems value="#{pessoaBean.estados}" />
 				<f:ajax event="change" execute="@this"
 					listener="#{pessoaBean.carregarCidades}" render="combo-cidade"/>
 			</h:selectOneMenu>
 			
 			<h:outputLabel value="Cidade"/>
-			<h:selectOneMenu value="#{pessoaBean.pessoa.cidades}" id="combo-cidade" converter="cidadeConverter">
+			<h:selectOneMenu value="#{pessoaBean.pessoa.cidades}" id="combo-cidade" converter="cidadeConverter" required="true" requiredMessage="Cidade é obrigatorio!">
 				<f:selectItem itemLabel="--Selecione--" noSelectionOption="true"/>
 				<f:selectItems value="#{pessoaBean.cidades}"/>
 			</h:selectOneMenu>
@@ -151,7 +151,7 @@
 		
 		<h:form id="form-table-usuarios">
 		
-		<h:dataTable value="#{pessoaBean.listaDePessoas}" var="p" border="3" cellpadding="6">
+		<h:dataTable value="#{pessoaBean.listaDePessoas}" var="p" border="3" cellpadding="6" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}">
 		
 		<f:facet name="header">Lista de usuarios Cadastrados</f:facet>
 		
@@ -173,6 +173,7 @@
 				<h:commandLink actionListener="#{pessoaBean.download}">
 				<h:graphicImage width="60" height="60" value="#{p.fotoIconBase64}"/>
 				<f:param name="fileDownloadId" value="#{p.id}"/>
+				<f:setPropertyActionListener value="#{p.fotoIconBaseOriginal}" target="#{pessoaBean.arquivoFot}"/>
 				</h:commandLink>
 			</h:column>
 			
@@ -185,7 +186,7 @@
 				</h:commandLink>
 			</h:column>
 			
-			<h:column rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}">
+			<h:column>
 			<f:facet name="header">Excluir</f:facet>
 				<h:commandLink value="" action="#{pessoaBean.deletar}" title="Excluir">
 					<f:setPropertyActionListener value="#{p}" target="#{pessoaBean.pessoa}"/>

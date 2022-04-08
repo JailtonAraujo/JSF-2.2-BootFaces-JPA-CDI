@@ -112,9 +112,14 @@ public class PessoaBean {
 	}
 
 	public String deletar() {
-		daoGeneric.deletePorID(pessoa);
-		carregarListaDePessoas();
-		mostrarMsg("Usuario Excluido com sucesso!");
+		try {
+			daoGeneric.deletePorID(pessoa);
+			carregarListaDePessoas();
+			mostrarMsg("Usuario Excluido com sucesso!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mostrarMsg("O usuario não pode ser excluido, pois o mesmo está associados a lançamentos!");
+		}
 		return "";
 	}
 
