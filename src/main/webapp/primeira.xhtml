@@ -68,23 +68,6 @@
 				<f:selectItem itemValue="JSF" />
 			</h:selectManyMenu>
 			
-			<h:outputLabel value="CEP:"/>
-			<h:inputText value="#{pessoaBean.endereco.cep}" id="cep">
-				<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisaCep}" 
-				render="uf logradouro localidade complemento"/>
-			</h:inputText>
-			
-			<h:outputLabel value="UF:"/>
-			<h:inputText value="#{pessoaBean.endereco.uf}" id="uf" readonly="true"/>
-			
-			<h:outputLabel value="Logradouro:"/>
-			<h:inputText value="#{pessoaBean.endereco.logradouro}" id="logradouro"/>
-			
-			<h:outputLabel value="Localidade:"/>
-			<h:inputText value="#{pessoaBean.endereco.localidade}" id="localidade" readonly="true"/>
-			
-			<h:outputLabel value="Complemento:"/>
-			<h:inputText value="#{pessoaBean.endereco.complemento}" id="complemento"/>
 			
 			<h:outputLabel value="Ativo:"/>
 			<h:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}" />
@@ -126,8 +109,8 @@
 			<h:selectOneMenu value="#{pessoaBean.pessoa.estados}" immediate="true" converter="estadoConverter" required="true" requiredMessage="Estado é obrigatorio!">
 				<f:selectItem itemLabel="--Selecione--" noSelectionOption="true"/>
 				<f:selectItems value="#{pessoaBean.estados}" />
-				<f:ajax event="change" execute="@this"
-					listener="#{pessoaBean.carregarCidades}" render="combo-cidade"/>
+				<f:ajax event="change" execute="@form"
+					listener="#{pessoaBean.carregarCidades}" render="@form"/>
 			</h:selectOneMenu>
 			
 			<h:outputLabel value="Cidade"/>
@@ -135,6 +118,24 @@
 				<f:selectItem itemLabel="--Selecione--" noSelectionOption="true"/>
 				<f:selectItems value="#{pessoaBean.cidades}"/>
 			</h:selectOneMenu>
+			
+			<h:outputLabel value="CEP:"/>
+			<h:inputText value="#{pessoaBean.endereco.cep}" id="cep">
+				<f:ajax event="blur" execute="@form" listener="#{pessoaBean.pesquisaCep}" 
+				render="@form" immediate="true"/>
+			</h:inputText>
+			
+			<h:outputLabel value="UF:"/>
+			<h:inputText value="#{pessoaBean.endereco.uf}" id="uf" readonly="true"/>
+			
+			<h:outputLabel value="Logradouro:"/>
+			<h:inputText value="#{pessoaBean.endereco.logradouro}" id="logradouro"/>
+			
+			<h:outputLabel value="Localidade:"/>
+			<h:inputText value="#{pessoaBean.endereco.localidade}" id="localidade" readonly="true"/>
+			
+			<h:outputLabel value="Complemento:"/>
+			<h:inputText value="#{pessoaBean.endereco.complemento}" id="complemento"/>
 
 		</h:panelGrid>
 		

@@ -1,10 +1,13 @@
 package br.com.repository;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Transient;
@@ -17,14 +20,19 @@ import br.com.entidades.Pessoa;
 import br.com.jpautil.JPAUtil;
 
 @SuppressWarnings("rawtypes")
-public class IDaoPessoaImpl implements IDaoPessoa {
+@Named
+public class IDaoPessoaImpl implements IDaoPessoa, Serializable {
 
+	private static final long serialVersionUID = -2416250826231427L;
+	
+	@Inject
+	private EntityManager entityManager;
+	
 	@Override
 	public Pessoa consultarLogin(String login, String senha) {
 
 		Pessoa pessoa = null;
 
-		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 
 		entityTransaction.begin();
@@ -34,14 +42,13 @@ public class IDaoPessoaImpl implements IDaoPessoa {
 				.getSingleResult();
 
 		entityTransaction.commit();
-		entityManager.close();
 
 		return pessoa;
 	}
 
 	@Override
 	public Pessoa consultaLoginEspecifico(String login, String senha) {
-		EntityManager entityManager = JPAUtil.getEntityManager();
+	
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 
 		entityTransaction.begin();
@@ -60,14 +67,12 @@ public class IDaoPessoaImpl implements IDaoPessoa {
 		pessoa.setPerfilUser((String) pessoaOb[2]);
 
 		entityTransaction.commit();
-		entityManager.close();
 
 		return pessoa;
 	}
 
 	@Override
 	public List<SelectItem> listarEstados() {
-		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 
 		entityTransaction.begin();
@@ -81,14 +86,12 @@ public class IDaoPessoaImpl implements IDaoPessoa {
 		}
 
 		entityTransaction.commit();
-		entityManager.close();
 
 		return selectItems;
 	}
 
 	@Override
 	public List<SelectItem> listarCidades(String estado_id) {
-		EntityManager entityManager = JPAUtil.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
 
 		entityTransaction.begin();
@@ -104,7 +107,6 @@ public class IDaoPessoaImpl implements IDaoPessoa {
 		}
 
 		entityTransaction.commit();
-		entityManager.close();
 
 		return selectItems;
 	}

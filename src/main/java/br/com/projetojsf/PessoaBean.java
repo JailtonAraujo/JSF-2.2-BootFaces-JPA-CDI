@@ -1,7 +1,5 @@
 package br.com.projetojsf;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -10,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -18,14 +17,14 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -38,12 +37,13 @@ import br.com.entidades.Endereco;
 import br.com.entidades.Estados;
 import br.com.entidades.Pessoa;
 import br.com.repository.IDaoPessoa;
-import br.com.repository.IDaoPessoaImpl;
 
-@ViewScoped
-@ManagedBean(name = "pessoaBean")
-public class PessoaBean {
+@javax.faces.view.ViewScoped
+@Named(value = "pessoaBean")
+public class PessoaBean implements Serializable{
 
+	private static final long serialVersionUID = 5272232793894598835L;
+	
 	private Pessoa pessoa = new Pessoa();
 	private List<Pessoa> listaDePessoas = new ArrayList<Pessoa>();
 	private Endereco endereco = new Endereco();
@@ -52,9 +52,11 @@ public class PessoaBean {
 	
 	private Part arquivoFot;
 
-	private DaoGeneric<Pessoa> daoGeneric = new DaoGeneric<Pessoa>();
-
-	private IDaoPessoa iDaoPessoa = new IDaoPessoaImpl();
+	@Inject
+	private DaoGeneric<Pessoa> daoGeneric;
+	
+	@Inject
+	private IDaoPessoa iDaoPessoa;
 
 	public String salvar() throws IOException {
 		

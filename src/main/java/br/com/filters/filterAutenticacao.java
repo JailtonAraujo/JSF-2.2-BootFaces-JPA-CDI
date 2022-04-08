@@ -1,6 +1,8 @@
 package br.com.filters;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,7 +19,10 @@ import br.com.jpautil.JPAUtil;
 
 @WebFilter(urlPatterns = {"/*"})
 public class filterAutenticacao implements Filter {
-       
+    
+	@Inject
+	private JPAUtil jpaUtil;
+	
     public filterAutenticacao() {
        
     }
@@ -46,7 +51,7 @@ public class filterAutenticacao implements Filter {
 
 	
 	public void init(FilterConfig fConfig) throws ServletException {
-		JPAUtil.getEntityManager();
+		jpaUtil.getEntityManager();
 	}
 
 }
