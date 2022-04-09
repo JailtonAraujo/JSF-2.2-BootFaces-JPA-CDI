@@ -3,44 +3,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:ui = "http://java.sun.com/jsf/facelets">
+	  xmlns:ui = "http://java.sun.com/jsf/facelets"
+	  xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Projeto JSF</title>
 </h:head>
 
 <h:body style="width: 100vw; heigth:100vh;">
 
+	<b:messages />
+
 	<ui:include src="/menu.xhtml"/>
 	
 	<h:form id="formLancamento">
 		
-		<h:panelGrid columns="2">
-		<f:facet name="header">
-			<h2>Lançamento</h2>
-		</f:facet>
+		<b:panel title="LANÇAMENTOS" look="warning">
 		
 		<h:outputLabel value="Id:"/>
-		<h:inputText value="#{lanceamentoBean.lancamento.id}" readonly="true"/>
+		<b:inputText value="#{lanceamentoBean.lancamento.id}" readonly="true" />
 		
 		<h:outputLabel value="Nota Fiscal:"/>
-		<h:inputText value="#{lanceamentoBean.lancamento.numeroNotaFiscal}" />
+		<b:inputText value="#{lanceamentoBean.lancamento.numeroNotaFiscal}" required="true" requiredMessage="Nota Fiscal Obrigatorio!" id="nota-fiscal"/>
+		<b:message for="nota-fiscal" auto-update="true" />
 		
 		<h:outputLabel value="Empresa De Origem:"/>
-		<h:inputText value="#{lanceamentoBean.lancamento.empresaOrigem}"/>
+		<b:inputText value="#{lanceamentoBean.lancamento.empresaOrigem}" required="true" requiredMessage="Empresa de Origem Obrigatorio!" id="empresaOrigem"/>
+		<b:message for="empresaOrigem" auto-update="true"/>
 		
 		<h:outputLabel value="Empresa De Destino"/>
-		<h:inputText value="#{lanceamentoBean.lancamento.empresaDestino}"/>
+		<b:inputText value="#{lanceamentoBean.lancamento.empresaDestino}" required="true" requiredMessage="Empresa de Destino Obrigatorio!" id="empresa-destino"/>
+		<b:message for="empresa-destino" auto-update="true"/>
 		
-		</h:panelGrid>
-		
-		<h:outputLabel value=""/>
 		<h:commandButton value="Salvar" action="#{lanceamentoBean.salvar}" image="/resources/img/diskette.png" title="Salvar" style="margin-left: 20px;"/>
 		<h:commandButton value="Deletar" action="#{lanceamentoBean.deletar}" image="/resources/img/remove.png" title="Excluir" style="margin-left: 8px;" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>
 		<h:commandButton value="Limpar" action="#{lanceamentoBean.novo}" image="/resources/img/limpar.png" title="Limpar Formulario" style="margin-left: 8px;"/>
 		
-		<h:dataTable value="#{lanceamentoBean.listaDeLancamento}" var="lanc" border="2">
-			
-			<f:facet name="header">Lançamentos</f:facet>
+		</b:panel>
+		
+		</h:form>
+		
+		<b:form>
+		
+		<b:panel title="Lista de Lançamentos" look="primary">
+		<b:dataTable value="#{lanceamentoBean.listaDeLancamento}" var="lanc" border="2">
 			
 			<h:column>
 				<f:facet name="header">ID</f:facet>
@@ -83,8 +88,9 @@
 				</h:commandLink>
 			</h:column>
 			
-		</h:dataTable>
-	</h:form>
+		</b:dataTable>
+		</b:panel>
+		</b:form>
 
 </h:body>
 </html>

@@ -60,12 +60,14 @@ public class IDaoPessoaImpl implements IDaoPessoa, Serializable {
 		query.setParameter(1, login);
 		query.setParameter(2, senha);
 
+		try {
 		Object[] pessoaOb = (Object[]) query.getSingleResult();
-
+		
 		pessoa.setId(((BigInteger) pessoaOb[0]).longValue());
 		pessoa.setNome((String) pessoaOb[1]);
 		pessoa.setPerfilUser((String) pessoaOb[2]);
-
+		}catch (javax.persistence.NoResultException e) {/*Tratamento se não encontrar usuario com login e senha*/
+		}
 		entityTransaction.commit();
 
 		return pessoa;

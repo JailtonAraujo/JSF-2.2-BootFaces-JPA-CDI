@@ -1,6 +1,7 @@
 package br.com.entidades;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
@@ -65,7 +66,7 @@ public class Pessoa implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
-	@OneToOne(mappedBy = "pessoa", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private Endereco endereco;
 
 	@Transient /* Não fica persistente / não grava no banco */
@@ -258,5 +259,18 @@ public class Pessoa implements Serializable {
 		Pessoa other = (Pessoa) obj;
 		return id == other.id;
 	}
+
+	@Override
+	public String toString() {
+		return "Pessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", idade=" + idade + ", sexo="
+				+ sexo + ", frameworks=" + Arrays.toString(frameworks) + ", ativo=" + ativo + ", login=" + login
+				+ ", senha=" + senha + ", perfilUser=" + perfilUser + ", nivelProgramacao=" + nivelProgramacao
+				+ ", linguagensDeProgramacao=" + Arrays.toString(linguagensDeProgramacao) + ", dataNascimento="
+				+ dataNascimento + ", endereco=" + endereco + ", estados=" + estados + ", cidades=" + cidades
+				+ ", fotoIconBase64=" + fotoIconBase64 + ", extensao=" + extensao + ", fotoIconBaseOriginal="
+				+ Arrays.toString(fotoIconBaseOriginal) + "]";
+	}
+	
+	
 
 }

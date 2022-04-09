@@ -2,14 +2,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core">
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:b="http://bootsfaces.net/ui">
 
 <h:body>
 	
 	<h:form>
-		<h:commandLink  value="Administração" action="primeira" style="margin-bottom: 8px;" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>
-		<h:commandLink value="Lançamentos" action="lancamento?faces-redirect=true" style="margin-left: 8px; margin-bottom: 8px;" />
-		<h:commandLink value="Sair" action="#{pessoaBean.logout}" style = "margin-left: 8px; margin-bottom: 8px;" />
+	<b:panel style="background-color:black;">
+		<b:commandButton  value="Administração" look="primary" action="primeira" style="margin-bottom: 8px;" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>
+		<b:commandButton value="Lançamentos" look="warning" action="lancamento?faces-redirect=true" style="margin-left: 8px; margin-bottom: 8px;" />
+		<b:commandButton value="Sair" look="danger" action="#{pessoaBean.logout}" style = "margin-left: 8px; margin-bottom: 8px;" />
+	</b:panel>
 	</h:form>
 
 </h:body>

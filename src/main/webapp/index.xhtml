@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+		xmlns:h="http://java.sun.com/jsf/html"
+		 xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Projeto JSF</title>
 	
@@ -8,24 +10,33 @@
 
 <h:body style="width: 100vw; heigth:100vh;">
 	
-	<h:form id="formLogin">
-		<h2>LOGIN</h2>
+	<!-- 
+	<header style="text-align:center; background-image:linear-gradient(to left, #DAA520, #1E90FF); margin-top:0px; height:50px; display:flex; flex-direction:column; 
+	justify-content: center;">
+		<h1 style="margin:0px;">SYSTEMA EM JFS</h1>
+	</header>
+	-->
+	<b:messages id="msg" auto-update="true"/>
+	
+	<b:form id="formLogin" style="display:flex; justify-content: center; align-items:center; height: 100vh;">
 		
-		<h:panelGrid columns="2">
+		<b:panel style="width:500px;" title="LOGIN" look="success">
 			<h:outputLabel value="Login:"/>
-			<h:inputText value="#{pessoaBean.pessoa.login}"/>
+			<b:inputText id="login" value="#{pessoaBean.pessoa.login}" required="true" requiredMessage="Login Obrigatorio!"/>
+			<b:message for="login" auto-update="true"/>
 			
 			<h:outputLabel value="Senha"/>
-			<h:inputSecret value="#{pessoaBean.pessoa.senha}"/>
+			<b:inputSecret id="senha" value="#{pessoaBean.pessoa.senha}" required="true" requiredMessage="Senha Orbigatorio!"/>
+			<b:message for="senha" auto-update="true"/>
 			
-			<h:commandButton value="LOGAR" action="#{pessoaBean.logar}"/>
+			<b:commandButton value="LOGAR" action="#{pessoaBean.logar}" look="success"/>
 		
-		</h:panelGrid>
+		</b:panel>
 		
 		<br/>
 		
 		
-	</h:form>
+	</b:form>
 
 </h:body>
 </html>

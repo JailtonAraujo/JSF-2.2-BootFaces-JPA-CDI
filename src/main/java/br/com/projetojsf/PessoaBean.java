@@ -37,6 +37,7 @@ import br.com.entidades.Endereco;
 import br.com.entidades.Estados;
 import br.com.entidades.Pessoa;
 import br.com.repository.IDaoPessoa;
+import net.bootsfaces.component.selectOneMenu.SelectOneMenu;
 
 @javax.faces.view.ViewScoped
 @Named(value = "pessoaBean")
@@ -59,6 +60,8 @@ public class PessoaBean implements Serializable{
 	private IDaoPessoa iDaoPessoa;
 
 	public String salvar() throws IOException {
+		
+		if(arquivoFot.getInputStream() != null) {
 		
 		byte[] imagemByte = getByte(arquivoFot.getInputStream());
 		
@@ -91,7 +94,7 @@ public class PessoaBean implements Serializable{
 		/*Processar imagem*/
 		pessoa.setFotoIconBase64(imgMiniatura);
 		pessoa.setExtensao(extencao);
-		
+		}
 		
 		endereco.setPessoa(pessoa);
 		pessoa.setEndereco(endereco);
@@ -135,7 +138,7 @@ public class PessoaBean implements Serializable{
 
 		Pessoa usuarioLogado = iDaoPessoa.consultaLoginEspecifico(pessoa.getLogin(), pessoa.getSenha());
 
-		if (usuarioLogado != null) {// Achou usuario
+		if (usuarioLogado != null && usuarioLogado.getId() > 0) {// Achou usuario
 
 			// Adicionar o usuario na sessão usuarioLogado
 
@@ -144,6 +147,8 @@ public class PessoaBean implements Serializable{
 			externalContext.getSessionMap().put("usuarioLogado", usuarioLogado);
 
 			return "primeira.jsf";
+		}else {
+			FacesContext.getCurrentInstance().addMessage("msg", new FacesMessage("Login ou senha incorretos!"));
 		}
 
 		return "index.jsf";
@@ -205,7 +210,7 @@ public class PessoaBean implements Serializable{
 
 	public void carregarCidades(AjaxBehaviorEvent event) {
 
-		Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
+		Estados estado = (Estados) ((SelectOneMenu) event.getSource()).getValue();
 
 		if (estado != null) {
 

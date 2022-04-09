@@ -3,6 +3,7 @@ package br.com.entidades;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,7 +38,7 @@ public class Endereco implements Serializable {
 
 	@ForeignKey(name = "fk_endereco_usuario")
 	@JoinColumn(name = "usuario_id")
-	@OneToOne(optional = false, fetch = FetchType.LAZY)
+	@OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Pessoa pessoa;
 
 	public Pessoa getPessoa() {
