@@ -1,6 +1,9 @@
 package br.com.entidades;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -9,6 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -32,7 +38,18 @@ public class Lancamento implements Serializable {
 	@ManyToOne(optional = false)
 	@ForeignKey(name = "usuario_fk")
 	private Pessoa usuario;
+	
+	@Temporal(TemporalType.DATE)
+	private Date dataLancamento = new Date(); 
 
+	@Transient
+	@Temporal(TemporalType.DATE)
+	private Date dataLanInicial;
+	
+	@Transient
+	@Temporal(TemporalType.DATE)
+	private Date dataLanFinal;
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,6 +88,32 @@ public class Lancamento implements Serializable {
 
 	public void setUsuario(Pessoa usuario) {
 		this.usuario = usuario;
+	}
+	
+	
+
+	public Date getDataLanInicial() {
+		return dataLanInicial;
+	}
+
+	public void setDataLanInicial(Date dataLanInicial) {
+		this.dataLanInicial = dataLanInicial;
+	}
+
+	public Date getDataLanFinal() {
+		return dataLanFinal;
+	}
+
+	public void setDataLanFinal(Date dataLanFinal) {
+		this.dataLanFinal = dataLanFinal;
+	}
+
+	public Date getDataLancamento() {
+		return dataLancamento;
+	}
+
+	public void setDataLancamento(Date dataLancamento) {
+		this.dataLancamento = dataLancamento;
 	}
 
 	@Override

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui = "http://java.sun.com/jsf/facelets"
+	  xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<title>Projeto JSF</title>
+</h:head>
+
+<h:body style="width: 100vw; heigth:100vh;">
+
+
+	<ui:include src="/menu.xhtml"/>
+	<b:messages />
+	
+	<h:form id="formRelLancamento">
+		
+		<b:panel title="RELATORIO DE LANÇAMENTOS" look="warning" display="">
+		
+		<b:datepicker id="dtInicial" value="#{relLancamentosBean.lancamento.dataLanInicial}" label="Data inicial:" required="true" locale="en" changeMonth="true" changeYear="true"/>
+		<b:datepicker id="dtFinal" value="#{relLancamentosBean.lancamento.dataLanFinal}" label="Data Final:" required="true" locale="en" changeMonth="true" changeYear="true"/>
+	
+		<b:commandButton value="BUSCAR" action="#{relLancamentosBean.buscarLancamento}" look="success"/>
+	
+		</b:panel>
+		
+		</h:form>
+		
+		<b:form>
+		
+		<b:panel title="Lista de Lançamentos" look="primary">
+		<b:dataTable value="#{relLancamentosBean.listLancamentos}" var="lanc" border="2" pdf="true" excel="true">
+			<b:dataTableColumn value="#{lanc.id}"/>
+			<b:dataTableColumn value="#{lanc.numeroNotaFiscal}" label="Nota Fiscal:"/>
+			<b:dataTableColumn value="#{lanc.empresaOrigem}" label="Empresa de Origem"/>
+			<b:dataTableColumn value="#{lanc.empresaDestino}" label="Empresa de Destino"/>
+			<b:dataTableColumn value="#{lanc.usuario.nome}" label="Funcionario"/>
+			<b:dataTableColumn value="#{lanc.dataLancamento}" label="Data do Lançamento"/>
+		</b:dataTable>
+		</b:panel>
+		</b:form>
+
+</h:body>
+</html>

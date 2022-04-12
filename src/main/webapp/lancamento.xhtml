@@ -11,9 +11,9 @@
 
 <h:body style="width: 100vw; heigth:100vh;">
 
-	<b:messages />
 
 	<ui:include src="/menu.xhtml"/>
+	<b:messages />
 	
 	<h:form id="formLancamento">
 		
@@ -33,6 +33,9 @@
 		<h:outputLabel value="Empresa De Destino"/>
 		<b:inputText value="#{lanceamentoBean.lancamento.empresaDestino}" required="true" requiredMessage="Empresa de Destino Obrigatorio!" id="empresa-destino"/>
 		<b:message for="empresa-destino" auto-update="true"/>
+		
+		<h:outputLabel value="Data Lançamento:"/>
+		<b:datepicker value="#{lanceamentoBean.lancamento.dataLancamento}" readonly="true" locale="en" disabled="true"/>
 		
 		<h:commandButton value="Salvar" action="#{lanceamentoBean.salvar}" image="/resources/img/diskette.png" title="Salvar" style="margin-left: 20px;"/>
 		<h:commandButton value="Deletar" action="#{lanceamentoBean.deletar}" image="/resources/img/remove.png" title="Excluir" style="margin-left: 8px;" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>

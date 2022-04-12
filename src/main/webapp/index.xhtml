@@ -6,9 +6,41 @@
 <h:head>
 	<title>Projeto JSF</title>
 	
+	<style>
+		body{
+			width: 100vw;
+			heigth:100vh;
+		}
+		#formLogin{
+			display:flex; 
+			justify-content: center; 
+			align-items:center; 
+			height: 100vh;
+			background-color: cadetblue;
+		}
+		
+		.panelLogin{
+			width: 500px;
+		}
+		
+		@media (max-width: 600px){
+			
+			.panelLogin{
+				width: 100%;
+				height: 100%;
+				margin: 0;
+			}
+			
+			.btn-logar{
+				width: 100%;
+			}
+		}
+		
+	</style>
+	
 </h:head>
 
-<h:body style="width: 100vw; heigth:100vh;">
+<h:body >
 	
 	<!-- 
 	<header style="text-align:center; background-image:linear-gradient(to left, #DAA520, #1E90FF); margin-top:0px; height:50px; display:flex; flex-direction:column; 
@@ -18,9 +50,9 @@
 	-->
 	<b:messages id="msg" auto-update="true"/>
 	
-	<b:form id="formLogin" style="display:flex; justify-content: center; align-items:center; height: 100vh;">
+	<b:form id="formLogin">
 		
-		<b:panel style="width:500px;" title="LOGIN" look="success">
+		<b:panel title="LOGIN" look="success" collapsible="false" style-class="panelLogin" style="margin-bottom:0px;">
 			<h:outputLabel value="Login:"/>
 			<b:inputText id="login" value="#{pessoaBean.pessoa.login}" required="true" requiredMessage="Login Obrigatorio!"/>
 			<b:message for="login" auto-update="true"/>
@@ -29,7 +61,7 @@
 			<b:inputSecret id="senha" value="#{pessoaBean.pessoa.senha}" required="true" requiredMessage="Senha Orbigatorio!"/>
 			<b:message for="senha" auto-update="true"/>
 			
-			<b:commandButton value="LOGAR" action="#{pessoaBean.logar}" look="success"/>
+			<b:commandButton value="LOGAR" action="#{pessoaBean.logar}" look="success" style-class="btn-logar"/>
 		
 		</b:panel>
 		

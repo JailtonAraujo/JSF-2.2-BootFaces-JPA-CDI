@@ -46,7 +46,7 @@ public class LancamentoBean implements Serializable{
 	@PostConstruct
 	public void carregarLancamentos() {
 		
-		listaDeLancamento = daoLancamento.consultar(getUserLogado().getId());
+		listaDeLancamento = daoLancamento.consultarLimit10(getUserLogado().getId());
 	}
 	
 	public String novo() {

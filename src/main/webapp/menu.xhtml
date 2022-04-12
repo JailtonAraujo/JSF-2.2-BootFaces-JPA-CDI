@@ -8,11 +8,21 @@
 <h:body>
 	
 	<h:form>
-	<b:panel style="background-color:black;">
-		<b:commandButton  value="Administração" look="primary" action="primeira" style="margin-bottom: 8px;" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>
-		<b:commandButton value="Lançamentos" look="warning" action="lancamento?faces-redirect=true" style="margin-left: 8px; margin-bottom: 8px;" />
-		<b:commandButton value="Sair" look="danger" action="#{pessoaBean.logout}" style = "margin-left: 8px; margin-bottom: 8px;" />
-	</b:panel>
+	<b:navBar brand="Sistema JSF" fluid="true" inverse="true">
+	<b:navbarLinks>
+		<b:navCommandLink value="Administração" action="primeira" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>
+		<b:navCommandLink value="Lançamentos" action="lancamento?faces-redirect=true"/>
+		
+		<b:dropMenu value="Relatorios">
+			<b:navCommandLink value="Relatorio de laçamentos" action="rellancamento"/>
+			<b:navCommandLink value="Relatorio de Usuarios"/>
+		</b:dropMenu>
+		
+		<b:navCommandLink value="Sair" action="#{pessoaBean.logout}"/>
+		
+	</b:navbarLinks>
+	</b:navBar>
+	
 	</h:form>
 
 </h:body>
