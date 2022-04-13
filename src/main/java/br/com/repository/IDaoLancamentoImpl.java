@@ -69,6 +69,21 @@ public class IDaoLancamentoImpl implements IDaoLancamento, Serializable {
 		return lancamentos;
 	}
 
+	@Override
+	public List<Lancamento> consultarLancamentoData(Long idUser, String dataLancamento) {
+		List<Lancamento> lancamentos = null;
+
+		EntityTransaction transaction = entityManager.getTransaction();
+
+		transaction.begin();
+
+		lancamentos = entityManager.createQuery("from Lancamento where dataLancamento = '"+dataLancamento+"' and usuario.id = "+idUser+"").getResultList();
+
+		transaction.commit();
+
+		return lancamentos;
+	}
+
 	
 
 }

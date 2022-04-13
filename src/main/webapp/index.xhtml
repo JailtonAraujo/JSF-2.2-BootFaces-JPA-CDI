@@ -5,7 +5,6 @@
 		 xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Projeto JSF</title>
-	
 	<style>
 		body{
 			width: 100vw;
@@ -55,11 +54,11 @@
 		<b:panel title="LOGIN" look="success" collapsible="false" style-class="panelLogin" style="margin-bottom:0px;">
 			<h:outputLabel value="Login:"/>
 			<b:inputText id="login" value="#{pessoaBean.pessoa.login}" required="true" requiredMessage="Login Obrigatorio!"/>
-			<b:message for="login" auto-update="true"/>
+			
 			
 			<h:outputLabel value="Senha"/>
 			<b:inputSecret id="senha" value="#{pessoaBean.pessoa.senha}" required="true" requiredMessage="Senha Orbigatorio!"/>
-			<b:message for="senha" auto-update="true"/>
+			
 			
 			<b:commandButton value="LOGAR" action="#{pessoaBean.logar}" look="success" style-class="btn-logar"/>
 		

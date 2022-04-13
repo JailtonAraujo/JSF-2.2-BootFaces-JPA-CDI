@@ -51,6 +51,9 @@ public class PessoaBean implements Serializable{
 	private List<SelectItem> estados;
 	private List<SelectItem> cidades;
 	
+	private String nomeBusca;
+	private List<Pessoa> usuariosModal = new ArrayList<Pessoa>();
+	
 	private Part arquivoFot;
 
 	@Inject
@@ -182,6 +185,7 @@ public class PessoaBean implements Serializable{
 
 	public void pesquisaCep(AjaxBehaviorEvent event) {
 		try {
+			
 			URL url = new URL("https://viacep.com.br/ws/" + endereco.getCep() + "/json/");
 			URLConnection connection = url.openConnection();
 
@@ -245,6 +249,10 @@ public class PessoaBean implements Serializable{
 		FacesContext.getCurrentInstance().responseComplete();
 		
 		
+	}
+	
+	public void BuscarUsuarioModal() {
+		usuariosModal = iDaoPessoa.consultarUsuarioModal(nomeBusca);
 	}
 
 	public Pessoa getPessoa() {
@@ -320,4 +328,20 @@ public class PessoaBean implements Serializable{
 		
 	}
 
+	public String getNomeBusca() {
+		return nomeBusca;
+	}
+
+	public void setNomeBusca(String nomeBusca) {
+		this.nomeBusca = nomeBusca;
+	}
+	
+	public List<Pessoa> getUsuariosModal() {
+		return usuariosModal;
+	}
+
+	public void setUsuariosModal(List<Pessoa> usuariosModal) {
+		this.usuariosModal = usuariosModal;
+	}
+	
 }

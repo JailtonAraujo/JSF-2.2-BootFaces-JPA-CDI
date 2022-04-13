@@ -12,4 +12,5 @@ public interface IDaoLancamento {
 	List<Lancamento> consultarLimit10 (Long idUser);
 	
 	List<Lancamento> consultarLancamentosIntervalo (Long idUser, String dataInicial, String dataFinal);
+	List<Lancamento> consultarLancamentoData (Long idUser, String dataLancamento);
 }

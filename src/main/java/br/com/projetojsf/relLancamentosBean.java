@@ -22,6 +22,7 @@ public class relLancamentosBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private List<Lancamento> listLancamentos = new ArrayList<Lancamento>();
+	private List<Lancamento> listLancamentosModal = new ArrayList<Lancamento>();
 
 	@Inject
 	private IDaoLancamento iDaoLancamento;
@@ -32,16 +33,14 @@ public class relLancamentosBean implements Serializable {
 	private Lancamento lancamento = new Lancamento();
 	
 	public void buscarLancamento() {
-		System.out.println(lancamento.getDataLanInicial());
-		System.out.println(lancamento.getDataLanFinal());
-		
-		FacesContext context = FacesContext.getCurrentInstance();
-		
-		Pessoa usuario = (Pessoa) context.getExternalContext().getSessionMap().get("usuarioLogado");
 		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		
-		listLancamentos = iDaoLancamento.consultarLancamentosIntervalo(usuario.getId(), format.format(lancamento.getDataLanInicial()), format.format(lancamento.getDataLanFinal()));
+		listLancamentos = iDaoLancamento.consultarLancamentosIntervalo(getUsuarioLogado().getId(), format.format(lancamento.getDataLanInicial()), format.format(lancamento.getDataLanFinal()));
+	}
+	
+	public void buscarModal() {
+		listLancamentosModal = iDaoLancamento.consultar(getUsuarioLogado().getId());
 	}
 	
 
@@ -59,6 +58,14 @@ public class relLancamentosBean implements Serializable {
 
 	public void setLancamento(Lancamento lancamento) {
 		this.lancamento = lancamento;
+	}
+	
+	public Pessoa getUsuarioLogado() {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		Pessoa usuario = (Pessoa) context.getExternalContext().getSessionMap().get("usuarioLogado");
+		
+		return usuario;
 	}
 
 }

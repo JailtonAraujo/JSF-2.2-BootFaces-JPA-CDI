@@ -37,9 +37,12 @@
 		<h:outputLabel value="Data Lançamento:"/>
 		<b:datepicker value="#{lanceamentoBean.lancamento.dataLancamento}" readonly="true" locale="en" disabled="true"/>
 		
+		<b:panel>
 		<h:commandButton value="Salvar" action="#{lanceamentoBean.salvar}" image="/resources/img/diskette.png" title="Salvar" style="margin-left: 20px;"/>
 		<h:commandButton value="Deletar" action="#{lanceamentoBean.deletar}" image="/resources/img/remove.png" title="Excluir" style="margin-left: 8px;" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>
 		<h:commandButton value="Limpar" action="#{lanceamentoBean.novo}" image="/resources/img/limpar.png" title="Limpar Formulario" style="margin-left: 8px;"/>
+		<b:button value="BUSCAR" onclick="$('.responsiveModalPseudoClass').modal()" look="primary" style="margin-bottom:20px;"/>
+		</b:panel>
 		
 		</b:panel>
 		
@@ -94,6 +97,55 @@
 		</b:dataTable>
 		</b:panel>
 		</b:form>
+		
+		<b:form>
+	<b:modal title="Buscar Usuario" styleClass="responsiveModalPseudoClass"
+		id="responsiveModal">
+		<b:dataTable value="#{lanceamentoBean.listaDeLancamentoModal}" var="lanc"
+			widgetVar="tableWidgetVar" responsive="true"
+			scroll-horizontally="true" id="tblLan">
+			
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+				<h:outputText value="#{lanc.id}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Nota Fical</f:facet>
+				<h:outputText value="#{lanc.numeroNotaFiscal}"/>
+			</h:column>
+			
+			
+				<h:column rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}">
+				<f:facet name="header">Excluir</f:facet>
+				<h:commandLink value="" title="Excluir" action="#{lanceamentoBean.deletar}">
+					<f:setPropertyActionListener value="#{lanc}" target="#{lanceamentoBean.lancamento}"/>
+					<h:graphicImage value="/resources/img/remove.png"/>
+				</h:commandLink>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Editar</f:facet>
+				<h:commandLink value="" title="Editar">
+					<f:setPropertyActionListener value="#{lanc}" target="#{lanceamentoBean.lancamento}"/>
+					<h:graphicImage value="/resources/img/edit.png"/>
+				</h:commandLink>
+			</h:column>
+			
+		</b:dataTable>
+		<f:facet name="footer">
+			
+			<b:datepicker value="#{lanceamentoBean.lancamento.dataLancamento}" required="true" locale="en" changeMonth="true" changeYear="true"
+			 label="Data Lancaçamneto" id="textBusca"/>
+			 
+			<b:commandButton look="primary" value="BUSCAR">
+				<f:ajax event="click" listener="#{lanceamentoBean.buscarModal}" execute="textBusca" render="tblLan"/>
+			</b:commandButton>
+			<b:button value="Close" dismiss="modal" />
+			
+		</f:facet>
+	</b:modal>
+	</b:form>
 
 </h:body>
 </html>

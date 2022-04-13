@@ -113,4 +113,17 @@ public class IDaoPessoaImpl implements IDaoPessoa, Serializable {
 		return selectItems;
 	}
 
+	@Override
+	public List<Pessoa> consultarUsuarioModal(String nome) {
+		
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		
+		List<Pessoa> pessoas = new ArrayList<Pessoa>();
+		
+		pessoas = entityManager.createQuery("from Pessoa where nome like '"+nome+"%' ").setMaxResults(10).getResultList();
+		
+		return pessoas;
+	}
+
 }

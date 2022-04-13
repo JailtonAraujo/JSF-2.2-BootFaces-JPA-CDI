@@ -130,7 +130,7 @@
 			<h:outputLabel value="CEP:"/>
 			<b:inputText value="#{pessoaBean.endereco.cep}" id="cep">
 				<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisaCep}" 
-				render="uf logradouro localidade complemento cep" immediate="true"/>
+				render="uf logradouro localidade complemento" immediate="true"/>
 			</b:inputText>
 			
 			<h:outputLabel value="UF:"/>
@@ -210,22 +210,51 @@
 		</b:panel>
 		</h:form>
 
+	<b:form>
 	<b:modal title="Buscar Usuario" styleClass="responsiveModalPseudoClass"
 		id="responsiveModal">
-		<b:dataTable value="#{carPool.carPool}" var="car"
+		<b:dataTable value="#{pessoaBean.usuariosModal}" var="pes"
 			widgetVar="tableWidgetVar" responsive="true"
-			scroll-horizontally="true">
+			scroll-horizontally="true" id="tblLan">
+			
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+				<h:outputText value="#{pes.id}"/>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:outputText value="#{pes.nome}"/>
+			</h:column>
+			
+			<h:column>
+			<f:facet name="header">Editar:</f:facet>
+				<h:commandLink value="" title="Editar" action="#{pessoaBean.editar}">
+					<f:setPropertyActionListener value="#{pes}" target="#{pessoaBean.pessoa}"/>
+					<f:setPropertyActionListener value="#{pes.endereco}" target="#{pessoaBean.endereco}"/>
+					<h:graphicImage value="/resources/img/edit.png"/>
+				</h:commandLink>
+			</h:column>
+			
+			<h:column>
+			<f:facet name="header">Excluir</f:facet>
+				<h:commandLink value="" action="#{pessoaBean.deletar}" title="Excluir">
+					<h:graphicImage value="/resources/img/remove.png" />
+				</h:commandLink>
+			</h:column>
+			
 		</b:dataTable>
 		<f:facet name="footer">
 			
-			
-			<b:inputText placeholder="Nome do Usuario" style="width:100%;"/>
-			<b:button look="primary" value="BUSCAR"/>
-			
+			<b:inputText value="#{pessoaBean.nomeBusca}" placeholder="Nome do Usuario" style="width:100%;" id="textBusca"/>
+			<b:commandButton look="primary" value="BUSCAR">
+				<f:ajax event="click" listener="#{pessoaBean.BuscarUsuarioModal}" execute="textBusca" render="tblLan"/>
+			</b:commandButton>
 			<b:button value="Close" dismiss="modal" />
 			
 		</f:facet>
 	</b:modal>
+	</b:form>
 	
 </h:body>
 </html>

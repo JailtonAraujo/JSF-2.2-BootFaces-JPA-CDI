@@ -13,5 +13,8 @@ public interface IDaoPessoa {
 	Pessoa  consultaLoginEspecifico (String login, String senha);
 	
 	List<SelectItem> listarEstados();
+	
 	List<SelectItem> listarCidades(String estado_id);
+	
+	List<Pessoa> consultarUsuarioModal(String nome);
 }

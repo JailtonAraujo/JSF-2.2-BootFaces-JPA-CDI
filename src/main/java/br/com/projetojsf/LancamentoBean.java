@@ -1,6 +1,7 @@
 package br.com.projetojsf;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class LancamentoBean implements Serializable{
 	private IDaoLancamento daoLancamento;
 	
 	private List<Lancamento> listaDeLancamento = new ArrayList<Lancamento>();
+	
+	private List<Lancamento> listaDeLancamentoModal = new ArrayList<Lancamento>();
 	
 	
 	public String salvar() {
@@ -79,6 +82,13 @@ public class LancamentoBean implements Serializable{
 		FacesMessage message = new FacesMessage(msg);
 		context.addMessage(null, message);
 	}
+	
+	public void buscarModal() {
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		
+		listaDeLancamentoModal = daoLancamento.consultarLancamentoData(getUserLogado().getId(), format.format(lancamento.getDataLancamento()));
+	}
 
 	public Lancamento getLancamento() {
 		return lancamento;
@@ -102,6 +112,14 @@ public class LancamentoBean implements Serializable{
 
 	public void setListaDeLancamento(List<Lancamento> listaDeLancamento) {
 		this.listaDeLancamento = listaDeLancamento;
+	}
+	
+	public List<Lancamento> getListaDeLancamentoModal() {
+		return listaDeLancamentoModal;
+	}
+	
+	public void setListaDeLancamentoModal(List<Lancamento> listaDeLancamentoModal) {
+		this.listaDeLancamentoModal = listaDeLancamentoModal;
 	}
 
 }
