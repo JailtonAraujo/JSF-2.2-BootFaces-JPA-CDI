@@ -22,6 +22,10 @@
 			width: 500px;
 		}
 		
+		.btn-cada{
+			margin-left: 265px;
+		}
+		
 		@media (max-width: 600px){
 			
 			.panelLogin{
@@ -33,6 +37,12 @@
 			.btn-logar{
 				width: 100%;
 			}
+			
+			.btn-cada{
+			margin-left: 0px;
+			margin-top:20px;
+			width: 100%;
+		}
 		}
 		
 	</style>
@@ -41,16 +51,9 @@
 
 <h:body >
 	
-	<!-- 
-	<header style="text-align:center; background-image:linear-gradient(to left, #DAA520, #1E90FF); margin-top:0px; height:50px; display:flex; flex-direction:column; 
-	justify-content: center;">
-		<h1 style="margin:0px;">SYSTEMA EM JFS</h1>
-	</header>
-	-->
 	<b:messages id="msg" auto-update="true"/>
 	
-	<b:form id="formLogin">
-		
+	<b:form id="formLogin">	
 		<b:panel title="LOGIN" look="success" collapsible="false" style-class="panelLogin" style="margin-bottom:0px;">
 			<h:outputLabel value="Login:"/>
 			<b:inputText id="login" value="#{pessoaBean.pessoa.login}" required="true" requiredMessage="Login Obrigatorio!"/>
@@ -61,6 +64,7 @@
 			
 			
 			<b:commandButton value="LOGAR" action="#{pessoaBean.logar}" look="success" style-class="btn-logar"/>
+			<b:commandButton value="CADASTRE-SE" action="cadvisitante" look="warning" style-class="btn-cada"/>
 		
 		</b:panel>
 		

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui = "http://java.sun.com/jsf/facelets"
+	  xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<title>Projeto JSF</title>
+	
+	<style>
+		
+		.title{
+			text-transform: uppercase;
+			font-weight: bold;
+			text-shadow: 2px 2px 8px #4B0082;
+		}
+		
+		.subTitle{
+			font-weight: bold;
+			text-shadow: 2px 2px 8px #4B0082;
+		}
+		
+		.contact{
+			display: flex;
+			padding: 0px;
+			margin-top: 30px;
+		}
+		
+		.contact li{
+			list-style: none;
+			margin-left: 10px;
+		}
+		
+	</style>
+</h:head>
+
+<h:body style="width: 100vw; heigth:100vh; background-color:cadetblue;" styleClass="bodyMain">
+
+
+	<ui:include src="/menu.xhtml"/>
+	<b:messages />
+	
+	<h:form id="formRelLancamento">
+		<b:panel title="SOBRE MIM" look="primary" collapsible="false">
+			<h1 class="title">Jailton de Araujo Santos</h1>
+			<h2 class="subTitle">Programador FullStack</h2>
+			<ul class="contact">
+				<li><a href="https://github.com/JailtonAraujo" target="_blank"> <img src="resources/img/github.png" alt="GitHub"/></a></li>
+				<li><a href="https://www.instagram.com/jailton9040/" target="_blank"> <img src="resources/img/instagram.png" alt="instagram" /> </a></li>
+				<li><a href="https://www.linkedin.com/in/jailton-araujo-b602041a2/" target="_blank"> <img src="resources/img/linkedin.png" alt="linkedin"/></a></li>
+			</ul>
+		</b:panel>
+		
+		</h:form>
+
+</h:body>
+</html>

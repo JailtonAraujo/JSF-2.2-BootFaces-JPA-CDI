@@ -10,7 +10,7 @@
 	<h:form>
 	<b:navBar brand="Sistema JSF" fluid="true" inverse="true">
 	<b:navbarLinks>
-		<b:navCommandLink value="ABOUT"/>
+		<b:navCommandLink value="ABOUT" action="about"/>
 		<b:navCommandLink value="Administração" action="primeira" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>
 		<b:navCommandLink value="Lançamentos" action="lancamento?faces-redirect=true"/>
 		
