@@ -45,10 +45,11 @@
 		
 		<h:outputLabel value="Sobrenome:"/>
 		<b:inputText value="#{pessoaBean.pessoa.sobrenome}" pt:placeholder ="Sobrenome"/>
-		
+	
+		<b:inputText value="#{pessoaBean.pessoa.cpf}" mask="999.999.999.99" label="CPF:"/>
 		
 		<h:outputLabel value="Idade:"/>
-		<b:inputText value="#{pessoaBean.pessoa.idade}"/>
+		<b:inputText value="#{pessoaBean.pessoa.idade}" mask="999"/>
 		
 		<h:outputLabel value="Sexo:"/>
 		
@@ -89,6 +90,7 @@
 				<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador"/>
 				<f:selectItem itemValue="RECEPCIONISTA" itemLabel="Recepcionista"/>
 				<f:selectItem itemValue="SECRETARIO" itemLabel="Secretario"/>
+				<f:selectItem itemValue="VISITANTE" itemLabel="VISITANTE"/>
 			</b:selectOneMenu>
 			
 			<h:outputLabel value="Nivel De Programação:"/>
@@ -128,7 +130,7 @@
 			</b:selectOneMenu>
 			
 			<h:outputLabel value="CEP:"/>
-			<b:inputText value="#{pessoaBean.endereco.cep}" id="cep">
+			<b:inputText value="#{pessoaBean.endereco.cep}" id="cep" mask="99999-999" >
 				<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisaCep}" 
 				render="uf logradouro localidade complemento" immediate="true"/>
 			</b:inputText>

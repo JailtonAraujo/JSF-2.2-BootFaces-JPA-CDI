@@ -14,9 +14,9 @@
 		<b:navCommandLink value="Administração" action="primeira" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}"/>
 		<b:navCommandLink value="Lançamentos" action="lancamento?faces-redirect=true"/>
 		
-		<b:dropMenu value="Relatorios">
+		<b:dropMenu value="Relatorios" rendered="#{pessoaBean.retricaoAcesso('ADMINISTRADOR')}">
 			<b:navCommandLink value="Relatorio de laçamentos" action="rellancamento"/>
-			<b:navCommandLink value="Relatorio de Usuarios"/>
+			<b:navCommandLink value="Relatorio de Usuarios" action="relusuario"/>
 		</b:dropMenu>
 		
 		<b:navCommandLink value="Sair" action="#{pessoaBean.logout}"/>

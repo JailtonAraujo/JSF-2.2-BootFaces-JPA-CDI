@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:ui = "http://java.sun.com/jsf/facelets"
+	   xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	  xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Projeto JSF</title>
@@ -58,12 +59,15 @@
 		
 		<b:panel title="CADASTRO DE VISITANTE" title-class="title" look="success" collapsible="false" style-class="panel-main">
 			
-			<b:inputText label="Nome:" required="true"/>
-			<b:inputText label="Idade" required="true"/>
-			<b:inputText label="Login" required="true"/>
-			<b:inputText label="Senha" required="true"/>
+			<b:inputText value="#{pessoaBean.pessoa.nome}" label="Nome:" required="true"/>
+			<b:inputText value="#{pessoaBean.pessoa.idade}" label="Idade" required="true" mask="999"/>
+			<b:inputText value="#{pessoaBean.pessoa.login}" label="Login" required="true"/>
+			<b:inputSecret  value="#{pessoaBean.pessoa.senha}" label="Senha" required="true"/>
+			<b:inputText value="#{pessoaBean.pessoa.perfilUser}" label="Perfil" readonly="true"/>
 			
-			<b:commandButton value="CADASTRAR" look="success" style-class="btn-cad"/>
+			<b:commandButton value="CADASTRAR" look="success" style-class="btn-cad">
+				<f:ajax event="click" listener="#{cadBean.salvar}" render="@this"/>
+			</b:commandButton>
 			<b:commandButton value="VOLTAR" look="warning" style-class="btn-voltar" action="index"/>
 		</b:panel>
 		

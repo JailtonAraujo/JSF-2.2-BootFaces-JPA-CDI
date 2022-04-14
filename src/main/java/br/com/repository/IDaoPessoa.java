@@ -17,4 +17,6 @@ public interface IDaoPessoa {
 	List<SelectItem> listarCidades(String estado_id);
 	
 	List<Pessoa> consultarUsuarioModal(String nome);
+	
+	List<Pessoa> consultarUsuarioIntervaloData(String dataInicial, String dataFinal);
 }

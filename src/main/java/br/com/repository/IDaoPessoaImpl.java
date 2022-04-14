@@ -3,6 +3,7 @@ package br.com.repository;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -124,6 +125,34 @@ public class IDaoPessoaImpl implements IDaoPessoa, Serializable {
 		pessoas = entityManager.createQuery("from Pessoa where nome like '"+nome+"%' ").setMaxResults(10).getResultList();
 		
 		return pessoas;
+	}
+
+	@Override
+	public List<Pessoa> consultarUsuarioIntervaloData(String dataInicial, String dataFinal) {
+		
+		EntityTransaction transaction = entityManager.getTransaction();
+		
+		transaction.begin();
+		
+		List<Pessoa> usuarios = new ArrayList<Pessoa>();
+		
+		StringBuilder sql = new StringBuilder();
+		
+		if( (dataInicial == null || dataInicial.trim().isEmpty()) && (dataFinal != null && !dataFinal.trim().isEmpty())) {
+			sql.append("from Pessoa where dataNascimento <= '").append(dataFinal).append("'");
+		}
+		else if( (dataInicial != null && !dataInicial.trim().isEmpty()) && (dataFinal == null || dataFinal.trim().isEmpty())) {
+			sql.append("from Pessoa where dataNascimento >= '").append(dataInicial).append("'");
+		}
+		else if ( (dataInicial != null && !dataInicial.trim().isEmpty()) && (dataFinal != null && !dataFinal.trim().isEmpty()) ) {
+			sql.append("from Pessoa where dataNascimento >= '").append(dataInicial).append("'")
+			.append(" and dataNascimento <= '").append(dataFinal).append("'");
+		}
+		
+		
+		usuarios = entityManager.createQuery(sql.toString()).getResultList();
+		
+		return usuarios;
 	}
 
 }

@@ -43,6 +43,8 @@ public class Pessoa implements Serializable {
 	@NotEmpty(message = "O sobrenome é obrigatorio!")
 	@NotNull(message = "O sobrenome não pode ser nulo")
 	private String sobrenome;
+	
+	private String cpf;
 
 	@DecimalMin(value = "10", message = "a Idade deve ser superior a 10 anoss")
 	private int idade;
@@ -241,6 +243,14 @@ public class Pessoa implements Serializable {
 
 	public void setLinguagensDeProgramacao(Integer[] linguagensDeProgramacao) {
 		this.linguagensDeProgramacao = linguagensDeProgramacao;
+	}
+	
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
+	public String getCpf() {
+		return cpf;
 	}
 
 	@Override

@@ -99,6 +99,9 @@ public class PessoaBean implements Serializable{
 		pessoa.setExtensao(extencao);
 		}
 		
+		if(pessoa.getPerfilUser() == null || pessoa.getPerfilUser().trim().isEmpty()) {
+			pessoa.setPerfilUser("VISITANTE");
+		}
 		endereco.setPessoa(pessoa);
 		pessoa.setEndereco(endereco);
 		pessoa = daoGeneric.merge(pessoa);
