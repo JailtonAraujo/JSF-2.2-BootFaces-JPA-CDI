@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:ui = "http://java.sun.com/jsf/facelets"
+	  xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<title>Projeto JSF</title>
+</h:head>
+
+<h:body style="width: 100vw; heigth:100vh;">
+
+
+	<ui:include src="/menu.xhtml"/>
+	<b:messages />
+	
+	<h:form id="formRelusuario">
+		
+		<b:panel title="RELATORIO DE USUARIOS" look="warning" display="">
+		
+		<b:datepicker id="dtInicial" value="#{relUsuariosBean.dataInicial}" label="Data inicial:" locale="en" changeMonth="true" changeYear="true"/>
+		<b:datepicker id="dtFinal" value="#{relUsuariosBean.dataFinal}" label="Data Final:" locale="en" changeMonth="true" changeYear="true"/>
+	
+		<b:commandButton value="BUSCAR" action="#{relUsuariosBean.GerarRelatorio}" look="success"/>
+	
+		</b:panel>
+		
+		</h:form>
+		
+		<b:form>
+		
+		<b:panel title="Lista de Usuarios" look="primary">
+		<b:dataTable value="#{relUsuariosBean.listaUsuario}" var="usu" border="2" pdf="true" excel="true">
+			<b:dataTableColumn value="#{usu.id}" label="ID:"/>
+			<b:dataTableColumn value="#{usu.nome}" label="Nome:"/>
+			<b:dataTableColumn value="#{usu.cpf}" label="CPF:"/>
+			<b:dataTableColumn value="#{usu.endereco.logradouro}" label="Logradouro:"/>
+			<b:dataTableColumn value="#{usu.idade}" label="Idade:"/>
+			<b:dataTableColumn value="#{usu.perfilUser}" label="Perfil:"/>
+		</b:dataTable>
+		</b:panel>
+		</b:form>
+
+</h:body>
+</html>
