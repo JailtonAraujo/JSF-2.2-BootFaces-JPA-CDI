@@ -23,7 +23,7 @@
 		<b:inputText value="#{lanceamentoBean.lancamento.id}" readonly="true" />
 		
 		<h:outputLabel value="Nota Fiscal:"/>
-		<b:inputText value="#{lanceamentoBean.lancamento.numeroNotaFiscal}" required="true" requiredMessage="Nota Fiscal Obrigatorio!" id="nota-fiscal"/>
+		<b:inputText value="#{lanceamentoBean.lancamento.numeroNotaFiscal}" required="true" requiredMessage="Nota Fiscal Obrigatorio!" id="nota-fiscal" mask="numeric"/>
 		<b:message for="nota-fiscal" auto-update="true" />
 		
 		<h:outputLabel value="Empresa De Origem:"/>

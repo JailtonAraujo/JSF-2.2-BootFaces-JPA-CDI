@@ -37,7 +37,7 @@ public class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@Size(min = 10, max = 100, message = "O nome deve ter mais que 10 caracteres!")
+	@Size(min = 1, max = 100, message = "O nome deve ter mais que 10 caracteres!")
 	private String nome;
 
 	@NotEmpty(message = "O sobrenome é obrigatorio!")

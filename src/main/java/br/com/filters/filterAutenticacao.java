@@ -41,10 +41,15 @@ public class filterAutenticacao implements Filter {
 		
 		String url = req.getServletPath();
 		
-		if(!url.equalsIgnoreCase("index.jsf") && usuarioLogado == null) {
+		if(url.equalsIgnoreCase("/cadvisitante.jsf")) {
+			chain.doFilter(request, response);
+		}
+		else if(!url.equalsIgnoreCase("/index.jsf") && usuarioLogado == null ){
 			request.getRequestDispatcher("index.jsf").forward(req, response);
 			return;
-		}else {
+		}
+		
+		else {
 		chain.doFilter(request, response);
 		}
 	}

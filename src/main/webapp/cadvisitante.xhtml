@@ -43,6 +43,7 @@
 			
 			.panel-main{
 			margin-top: 0px;
+			height: 100%;
 		}
 		}
 
@@ -51,24 +52,23 @@
 </h:head>
 <h:body style="width: 100vw; heigth:100vh; background-color: cadetblue;">
 
-	<b:messages />
+<b:messages auto-update="true"/>
 	
 	<h:form styleClass="form-main">
 		
-		<b:messages auto-update="true"/>
+		
 		
 		<b:panel title="CADASTRO DE VISITANTE" title-class="title" look="success" collapsible="false" style-class="panel-main">
 			
-			<b:inputText value="#{pessoaBean.pessoa.nome}" label="Nome:" required="true"/>
-			<b:inputText value="#{pessoaBean.pessoa.idade}" label="Idade" required="true" mask="999"/>
-			<b:inputText value="#{pessoaBean.pessoa.login}" label="Login" required="true"/>
-			<b:inputSecret  value="#{pessoaBean.pessoa.senha}" label="Senha" required="true"/>
-			<b:inputText value="#{pessoaBean.pessoa.perfilUser}" label="Perfil" readonly="true"/>
+			<b:inputText value="#{cadVisitanteBean.pessoa.nome}" label="Nome:" required="true"/>
+			<b:inputText value="#{cadVisitanteBean.pessoa.sobrenome}" label="Sobrenome:" required="true"/>
+			<b:inputText value="#{cadVisitanteBean.pessoa.idade}" label="Idade" required="true" mask="numeric"/>
+			<b:inputText value="#{cadVisitanteBean.pessoa.login}" label="Login" required="true"/>
+			<b:inputSecret  value="#{cadVisitanteBean.pessoa.senha}" label="Senha" required="true"/>
+			<b:inputText value="#{cadVisitanteBean.pessoa.perfilUser}" label="Perfil" readonly="true"/>
 			
-			<b:commandButton value="CADASTRAR" look="success" style-class="btn-cad">
-				<f:ajax event="click" listener="#{cadBean.salvar}" render="@this"/>
-			</b:commandButton>
-			<b:commandButton value="VOLTAR" look="warning" style-class="btn-voltar" action="index"/>
+			<b:commandButton value="CADASTRAR" action="#{cadVisitanteBean.salvar}" look="success" style-class="btn-cad"/>
+			<b:commandButton value="VOLTAR" look="warning" style-class="btn-voltar" action="index" immediate="true"/>
 		</b:panel>
 		
 		</h:form>
