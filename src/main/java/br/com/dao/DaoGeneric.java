@@ -92,7 +92,7 @@ public List<E> getListEntityLimit10 (Class<E> entidade){
 		
 		entityTransaction.begin();
 		
-		List<E> retorno = entityManager.createQuery("from "+entidade.getName()+" order by id desc").setMaxResults(10).getResultList();
+		List<E> retorno = entityManager.createQuery("from "+entidade.getName()+" order by id desc").setMaxResults(5).getResultList();
 		
 		entityTransaction.commit();
 		

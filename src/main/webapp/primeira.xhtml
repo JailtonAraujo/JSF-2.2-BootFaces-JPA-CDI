@@ -120,7 +120,7 @@
 				<f:selectItem itemLabel="--Selecione--" noSelectionOption="true"/>
 				<f:selectItems value="#{pessoaBean.estados}" />
 				<f:ajax event="change" execute="@form"
-					listener="#{pessoaBean.carregarCidades}" render="@form"/>
+					listener="#{pessoaBean.carregarCidades}" render="combo-cidade" immediate="true"/>
 			</b:selectOneMenu>
 			
 			<h:outputLabel value="Cidade"/>

@@ -17,7 +17,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -64,7 +63,7 @@ public class PessoaBean implements Serializable{
 
 	public String salvar() throws IOException {
 		
-		if(arquivoFot.getInputStream() != null) {
+		if(arquivoFot.getInputStream() != null && arquivoFot != null) {
 		
 		byte[] imagemByte = getByte(arquivoFot.getInputStream());
 		
@@ -131,7 +130,7 @@ public class PessoaBean implements Serializable{
 		return "";
 	}
 
-	@PostConstruct
+	
 	public void carregarListaDePessoas() {
 		listaDePessoas = daoGeneric.getListEntityLimit10(Pessoa.class);
 

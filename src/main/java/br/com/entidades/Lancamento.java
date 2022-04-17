@@ -6,8 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,8 +37,9 @@ public class Lancamento implements Serializable {
 	private String empresaDestino;
 
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false,fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
 	@ForeignKey(name = "usuario_fk")
+	@Basic(fetch = FetchType.LAZY)
 	private Pessoa usuario;
 	
 	@Temporal(TemporalType.DATE)
@@ -50,6 +53,30 @@ public class Lancamento implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataLanFinal;
 	
+	public Lancamento() {}
+	
+	public Lancamento(Long id, Long numeroNotaFiscal, String empresaOrigem, String empresaDestino,
+			Date dataLancamento) {
+
+		this.id = id;
+		this.numeroNotaFiscal = numeroNotaFiscal;
+		this.empresaOrigem = empresaOrigem;
+		this.empresaDestino = empresaDestino;
+		this.dataLancamento = dataLancamento;
+	}
+
+	public Lancamento(Long id, Long numeroNotaFiscal, String empresaOrigem, String empresaDestino,
+			Date dataLancamento, String usuario) {
+
+		this.id = id;
+		this.numeroNotaFiscal = numeroNotaFiscal;
+		this.empresaOrigem = empresaOrigem;
+		this.empresaDestino = empresaDestino;
+		this.dataLancamento = dataLancamento;
+		this.usuario = new Pessoa();
+		this.usuario.setNome(usuario);
+	}
+
 	public Long getId() {
 		return id;
 	}

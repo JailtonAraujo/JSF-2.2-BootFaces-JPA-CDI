@@ -29,7 +29,8 @@ public class IDaoLancamentoImpl implements IDaoLancamento, Serializable {
 
 		transaction.begin();
 
-		lancamentos = entityManager.createQuery("from Lancamento where usuario.id = " + idUser).getResultList();
+		lancamentos = entityManager.createQuery("select new br.com.entidades.Lancamento (l.id, l.numeroNotaFiscal, l.empresaOrigem, l.empresaDestino, l.dataLancamento)"
+				+ "from Lancamento l where l.usuario.id = " + idUser).getResultList();
 
 		transaction.commit();
 
@@ -45,7 +46,8 @@ public class IDaoLancamentoImpl implements IDaoLancamento, Serializable {
 
 		transaction.begin();
 
-		lancamentos = entityManager.createQuery("from Lancamento where usuario.id = " + idUser + " order by id desc")
+		lancamentos = entityManager.createQuery("select new br.com.entidades.Lancamento (l.id, l.numeroNotaFiscal, l.empresaOrigem, l.empresaDestino, l.dataLancamento) "
+				+ "from Lancamento l where l.usuario.id = " + idUser + " order by l.id desc",Lancamento.class)
 				.setMaxResults(10).getResultList();
 
 		transaction.commit();
@@ -61,7 +63,8 @@ public class IDaoLancamentoImpl implements IDaoLancamento, Serializable {
 
 		transaction.begin();
 
-		lancamentos = entityManager.createQuery("from Lancamento where usuario.id = " + idUser + "  and dataLancamento >= '"+dataInicial+"' and dataLancamento <= '"+dataFinal+"' order by id desc")
+		lancamentos = entityManager.createQuery("select new br.com.entidades.Lancamento (l.id, l.numeroNotaFiscal, l.empresaOrigem, l.empresaDestino, l.dataLancamento, u.nome)"
+				+ "from Lancamento l, Pessoa u where l.usuario.id = " + idUser + "  and l.dataLancamento >= '"+dataInicial+"' and l.dataLancamento <= '"+dataFinal+"' order by l.id desc")
 				.setMaxResults(10).getResultList();
 
 		transaction.commit();
@@ -77,7 +80,8 @@ public class IDaoLancamentoImpl implements IDaoLancamento, Serializable {
 
 		transaction.begin();
 
-		lancamentos = entityManager.createQuery("from Lancamento where dataLancamento = '"+dataLancamento+"' and usuario.id = "+idUser+"").getResultList();
+		lancamentos = entityManager.createQuery("select new br.com.entidades.Lancamento (l.id, l.numeroNotaFiscal, l.empresaOrigem, l.empresaDestino, l.dataLancamento)"
+				+ "from Lancamento l where l.dataLancamento = '"+dataLancamento+"' and l.usuario.id = "+idUser+"").getResultList();
 
 		transaction.commit();
 
