@@ -89,9 +89,25 @@ public class Pessoa implements Serializable {
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] fotoIconBaseOriginal;
 
-	public Pessoa() {
+	public Pessoa() {}
+	
+	
 
+	public Pessoa(long id, String nome, String cpf, int idade, String perfilUser, String logradouro) {
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.idade = idade;
+		this.perfilUser = perfilUser;
+		this.endereco = new Endereco();
+		this.endereco.setLogradouro(logradouro);
 	}
+
+	public Pessoa(long id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
+
 
 	public String getFotoIconBase64() {
 		return fotoIconBase64;

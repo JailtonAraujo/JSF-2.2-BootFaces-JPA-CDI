@@ -44,7 +44,7 @@ public class relUsuarios implements Serializable{
 			listaUsuario = daoPessoa.consultarUsuarioIntervaloData(format.format(dataInicial), null);
 		}
 		else if ( (dataInicial == null || dataInicial.toString().trim().isEmpty()) && (dataFinal == null || dataFinal.toString().trim().isEmpty())) {
-			listaUsuario = daoGeneric.getListEntity(Pessoa.class);
+			listaUsuario = daoPessoa.consultarUsuarioIntervaloData(null, null);
 		}
 		
 	}

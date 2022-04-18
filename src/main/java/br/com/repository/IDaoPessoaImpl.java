@@ -3,7 +3,6 @@ package br.com.repository;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -11,14 +10,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Transient;
 
 import org.hibernate.query.Query;
 
 import br.com.entidades.Cidades;
 import br.com.entidades.Estados;
 import br.com.entidades.Pessoa;
-import br.com.jpautil.JPAUtil;
 
 @SuppressWarnings("rawtypes")
 @Named
@@ -122,7 +119,12 @@ public class IDaoPessoaImpl implements IDaoPessoa, Serializable {
 		
 		List<Pessoa> pessoas = new ArrayList<Pessoa>();
 		
-		pessoas = entityManager.createQuery("from Pessoa where nome like '"+nome+"%' ").setMaxResults(10).getResultList();
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("select new br.com.entidades.Pessoa(p.id, p.nome)"
+				+ "from Pessoa p where p.nome like '").append(nome).append("%'");
+		
+		pessoas = entityManager.createQuery(sql.toString(), Pessoa.class).setMaxResults(10).getResultList();
 		
 		return pessoas;
 	}
@@ -139,18 +141,24 @@ public class IDaoPessoaImpl implements IDaoPessoa, Serializable {
 		StringBuilder sql = new StringBuilder();
 		
 		if( (dataInicial == null || dataInicial.trim().isEmpty()) && (dataFinal != null && !dataFinal.trim().isEmpty())) {
-			sql.append("from Pessoa where dataNascimento <= '").append(dataFinal).append("'");
+			sql.append("select new br.com.entidades.Pessoa(p.id, p.nome, p.cpf, p.idade, p.perfilUser, p.endereco.logradouro) "
+					+ "from Pessoa p where p.dataNascimento <= '").append(dataFinal).append("'");
 		}
 		else if( (dataInicial != null && !dataInicial.trim().isEmpty()) && (dataFinal == null || dataFinal.trim().isEmpty())) {
-			sql.append("from Pessoa where dataNascimento >= '").append(dataInicial).append("'");
+			sql.append("select new br.com.entidades.Pessoa(p.id, p.nome, p.cpf, p.idade, p.perfilUser, p.endereco.logradouro)"
+					+ "from Pessoa p where p.dataNascimento >= '").append(dataInicial).append("'");
 		}
 		else if ( (dataInicial != null && !dataInicial.trim().isEmpty()) && (dataFinal != null && !dataFinal.trim().isEmpty()) ) {
-			sql.append("from Pessoa where dataNascimento >= '").append(dataInicial).append("'")
-			.append(" and dataNascimento <= '").append(dataFinal).append("'");
+			sql.append("select new br.com.entidades.Pessoa(p.id, p.nome, p.cpf, p.idade, p.perfilUser, p.endereco.logradouro)"
+					+ "from Pessoa p where p.dataNascimento >= '").append(dataInicial).append("'")
+			.append(" and p.dataNascimento <= '").append(dataFinal).append("'");
+		}
+		else if ( (dataInicial == null || dataInicial.trim().isEmpty()) && (dataFinal == null || dataFinal.trim().isEmpty()) ) {
+			sql.append("select new br.com.entidades.Pessoa(p.id, p.nome, p.cpf, p.idade, p.perfilUser, p.endereco.logradouro)"
+					+ "from Pessoa p right join p.endereco");
 		}
 		
-		
-		usuarios = entityManager.createQuery(sql.toString()).getResultList();
+		usuarios = entityManager.createQuery(sql.toString(), Pessoa.class).getResultList();
 		
 		return usuarios;
 	}

@@ -125,7 +125,7 @@ public class PessoaBean implements Serializable{
 			mostrarMsg("Usuario Excluido com sucesso!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			mostrarMsg("O usuario não pode ser excluido, pois o mesmo está associados a lançamentos!");
+			mostrarMsg("O usuario não pode ser excluido, pois o mesmo está associado a lançamentos!");
 		}
 		return "";
 	}
