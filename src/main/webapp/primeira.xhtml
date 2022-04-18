@@ -232,8 +232,7 @@
 			<h:column>
 			<f:facet name="header">Editar:</f:facet>
 				<h:commandLink value="" title="Editar" action="#{pessoaBean.editar}">
-					<f:setPropertyActionListener value="#{pes}" target="#{pessoaBean.pessoa}"/>
-					<f:setPropertyActionListener value="#{pes.endereco}" target="#{pessoaBean.endereco}"/>
+					<f:setPropertyActionListener value="#{pes.id}" target="#{pessoaBean.pessoa.id}"/>
 					<h:graphicImage value="/resources/img/edit.png"/>
 				</h:commandLink>
 			</h:column>

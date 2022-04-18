@@ -108,6 +108,34 @@ public class Pessoa implements Serializable {
 		this.nome = nome;
 	}
 
+	
+
+	public Pessoa(long id, String nome, String sobrenome, String cpf, int idade, String sexo, String[] frameworks,
+			Boolean ativo, String login, String senha, String perfilUser, String nivelProgramacao,
+			Integer[] linguagensDeProgramacao, Date dataNascimento,Cidades cidades,
+			String fotoIconBase64, String extensao, String cep, String uf, String localidade, String logradouro, String complemento) {
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.cpf = cpf;
+		this.idade = idade;
+		this.sexo = sexo;
+		this.frameworks = frameworks;
+		this.ativo = ativo;
+		this.login = login;
+		this.senha = senha;
+		this.perfilUser = perfilUser;
+		this.nivelProgramacao = nivelProgramacao;
+		this.linguagensDeProgramacao = linguagensDeProgramacao;
+		this.dataNascimento = dataNascimento;
+		this.cidades = cidades;
+		this.fotoIconBase64 = fotoIconBase64;
+		this.extensao = extensao;
+		this.endereco = new Endereco(cep, uf, localidade, logradouro, complemento);
+		
+	}
+
+
 
 	public String getFotoIconBase64() {
 		return fotoIconBase64;

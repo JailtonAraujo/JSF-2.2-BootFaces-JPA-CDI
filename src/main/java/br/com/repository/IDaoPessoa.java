@@ -19,4 +19,6 @@ public interface IDaoPessoa {
 	List<Pessoa> consultarUsuarioModal(String nome);
 	
 	List<Pessoa> consultarUsuarioIntervaloData(String dataInicial, String dataFinal);
+	
+	Pessoa consultarPessoa(Long id);
 }

@@ -41,6 +41,22 @@ public class Endereco implements Serializable {
 	@OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Pessoa pessoa;
 
+	public Endereco() {
+	}
+	
+	
+	
+	public Endereco(String cep, String uf, String localidade, String logradouro, String complemento) {
+		super();
+		this.cep = cep;
+		this.uf = uf;
+		this.localidade = localidade;
+		this.logradouro = logradouro;
+		this.complemento = complemento;
+	}
+
+
+
 	public Pessoa getPessoa() {
 		return pessoa;
 	}

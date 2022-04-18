@@ -223,6 +223,10 @@ public class PessoaBean implements Serializable{
 	}
 	
 	public void editar() {
+		
+		pessoa = daoGeneric.consultar(Pessoa.class, Long.toString(pessoa.getId()));
+		endereco = pessoa.getEndereco();
+		
 		if(pessoa.getCidades() != null) {
 			Estados estado = pessoa.getCidades().getEstados();
 			pessoa.setEstados(estado);
@@ -230,6 +234,7 @@ public class PessoaBean implements Serializable{
 			cidades = iDaoPessoa.listarCidades(estado.getId().toString());
 			
 		}
+		
 	}
 	
 	public void download() throws IOException{

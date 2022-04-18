@@ -3,6 +3,7 @@ package br.com.repository;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -14,6 +15,7 @@ import javax.persistence.EntityTransaction;
 import org.hibernate.query.Query;
 
 import br.com.entidades.Cidades;
+import br.com.entidades.Endereco;
 import br.com.entidades.Estados;
 import br.com.entidades.Pessoa;
 
@@ -126,6 +128,8 @@ public class IDaoPessoaImpl implements IDaoPessoa, Serializable {
 		
 		pessoas = entityManager.createQuery(sql.toString(), Pessoa.class).setMaxResults(10).getResultList();
 		
+		entityTransaction.commit();
+		
 		return pessoas;
 	}
 
@@ -160,7 +164,35 @@ public class IDaoPessoaImpl implements IDaoPessoa, Serializable {
 		
 		usuarios = entityManager.createQuery(sql.toString(), Pessoa.class).getResultList();
 		
+		transaction.commit();
+		
 		return usuarios;
 	}
+
+	@Override
+	public Pessoa consultarPessoa(Long id) {
+		
+		EntityTransaction transaction = entityManager.getTransaction();
+		
+		transaction.begin();
+		
+		Pessoa pessoa = new Pessoa();
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("select new br.com.entidades.Pessoa ( p.id, p.nome, p.sobrenome, p.cpf, p.idade, p.sexo, p.frameworks,\r\n"
+				+ "			p.ativo, p.login, p.senha, p.perfilUser, p.nivelProgramacao,\r\n"
+				+ "			p.linguagensDeProgramacao, p.dataNascimento,p.cidades,\r\n"
+				+ "			p.fotoIconBase64, p.extensao, p.endereco.cep, p.endereco.uf, p.endereco.localidade, p.endereco.logradouro, p.endereco.complemento ) "
+				+ "from Pessoa p rigth join p.endereco right join p.cidades where p.id = ").append(id);
+		
+		pessoa = (Pessoa) entityManager.createQuery(sql.toString(), Pessoa.class).getSingleResult();
+		
+		transaction.commit();
+		
+		return pessoa;
+	}
+	
+	
 
 }
